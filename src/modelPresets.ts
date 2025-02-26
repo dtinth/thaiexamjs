@@ -24,6 +24,10 @@ const opentyphoon = createOpenAICompatible({
 
 export const modelPresets: Record<string, ModelPreset> = {
   // Anthropic Claude models
+  "claude-3-opus-20240229": {
+    createModel: (id) => anthropic(id),
+    cost: [15, 75],
+  },
   "claude-3-5-haiku-20241022": {
     createModel: (id) => anthropic(id),
     cost: [0.8, 4],
@@ -110,6 +114,10 @@ export const modelPresets: Record<string, ModelPreset> = {
   "o1-mini-2024-09-12": {
     createModel: (id) => openai(id),
     cost: [1.1, 4.4],
+  },
+  "o1-preview-2024-09-12": {
+    createModel: (id) => openai(id),
+    cost: [15, 60],
   },
 
   // Microsoft's Phi model
