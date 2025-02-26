@@ -17,6 +17,12 @@ const groq = createOpenAICompatible({
   baseURL: "https://api.groq.com/openai/v1",
 });
 
+const opentyphoon = createOpenAICompatible({
+  name: "opentyphoon",
+  apiKey: process.env["OPENTYPHOON_API_KEY"],
+  baseURL: "https://api.opentyphoon.ai/v1",
+});
+
 export const modelPresets: Record<string, ModelPreset> = {
   "gpt-4o-mini-2024-07-18": {
     createModel: (id) => openai(id),
@@ -98,10 +104,27 @@ export const modelPresets: Record<string, ModelPreset> = {
   "DeepSeek-R1": {
     createModel: (id) => azureAiFoundry(id),
     cost: [0.55, 2.19],
+    displayName: "deepseek-r1-671b",
   },
   "Phi-4": {
     createModel: (id) => azureAiFoundry(id),
     cost: [0, 0],
+  },
+  "typhoon-v2-r1-70b-preview": {
+    createModel: (id) => opentyphoon(id),
+    cost: [0.9, 0.9], // Based on https://www.together.ai/pricing
+  },
+  "typhoon-v2-70b-instruct": {
+    createModel: (id) => opentyphoon(id),
+    cost: [0.9, 0.9], // Based on https://www.together.ai/pricing
+  },
+  "typhoon-v2-8b-instruct": {
+    createModel: (id) => opentyphoon(id),
+    cost: [0.2, 0.2], // Based on https://www.together.ai/pricing
+  },
+  "typhoon-v1.5x-70b-instruct": {
+    createModel: (id) => opentyphoon(id),
+    cost: [0.9, 0.9], // Based on https://www.together.ai/pricings
   },
 };
 
@@ -109,4 +132,5 @@ export interface ModelPreset {
   createModel: (id: string) => LanguageModelV1;
   cost: [prompt: number, completion: number];
   providerOptions?: Record<string, any>;
+  displayName?: string;
 }

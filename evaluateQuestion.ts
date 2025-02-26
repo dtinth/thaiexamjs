@@ -40,6 +40,13 @@ export async function evaluateQuestion(
     temperature,
     messages: inputMessages,
     providerOptions,
+
+    // Typhoon API defaults to 128 tokens, but we need more for some models
+    ...(modelPresetId.includes("typhoon-v1")
+      ? { maxTokens: 4096 }
+      : modelPresetId.includes("typhoon")
+      ? { maxTokens: 8192 }
+      : {}),
   });
   const endTime = performance.now();
   return {

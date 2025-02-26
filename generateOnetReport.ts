@@ -7,7 +7,7 @@ import { modelPresets } from "./modelPresets";
 const report = (await Bun.file("docs/onet.json").json()) as Report;
 
 const modelName = (model: string) => {
-  return model;
+  return modelPresets[model]?.displayName || model;
 };
 
 class ModelStats {
@@ -17,11 +17,19 @@ class ModelStats {
   completionTokens = 0;
 
   get pricing() {
-    const info = modelPresets[this.model];
+    const info = this.preset;
     return {
       promptCost: info?.cost?.[0] ?? 0,
       completionCost: info?.cost?.[1] ?? 0,
     };
+  }
+
+  get preset() {
+    return modelPresets[this.model];
+  }
+
+  get displayName() {
+    return this.preset?.displayName || this.model;
   }
 
   get promptCost() {
@@ -235,7 +243,9 @@ function renderReport() {
             return html`<tr>
               <td>${modelName(stats.model)}</td>
               <td class="text-end">
-                ${ui.tooltip(thb(stats.cost), tooltipContent)}
+                ${stats.cost > 0
+                  ? ui.tooltip(thb(stats.cost), tooltipContent)
+                  : "—"}
               </td>
               ${subjectNames.map((subject) => {
                 const { correct, total } = stats.bySubject[subject] || {
