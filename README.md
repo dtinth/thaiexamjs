@@ -32,12 +32,15 @@ To run:
 
 ```bash
 # Make the model take exams
-bun run scripts/index.ts <model-name>
+bun run scripts/run.ts <model-name>
+
+# Run with specific exam filter (e.g., only O-NET exams)
+EXAM_FILTER=onet bun run scripts/run.ts <model-name>
 
 # Run with sharding (process different subsets of exams)
-SHARD=1/3 bun run scripts/index.ts <model-name>  # Process first third of exams
-SHARD=2/3 bun run scripts/index.ts <model-name>  # Process second third of exams
-SHARD=3/3 bun run scripts/index.ts <model-name>  # Process final third of exams
+SHARD=1/3 bun run scripts/run.ts <model-name>  # Process first third of exams
+SHARD=2/3 bun run scripts/run.ts <model-name>  # Process second third of exams
+SHARD=3/3 bun run scripts/run.ts <model-name>  # Process final third of exams
 
 # Generate summarized file (`docs/onet.json`)
 bun run scripts/summarize.ts
