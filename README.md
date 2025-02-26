@@ -47,4 +47,19 @@ bun run scripts/summarize.ts
 
 # Generate HTML report file (`docs/onet.html`)
 bun run scripts/generateOnetReport.ts
+
+# Export logs from database to JSONL (useful for transporting results)
+bun run scripts/exportLogs.ts
+
+# Import logs from JSONL to database
+bun run scripts/importLogs.ts
 ```
+
+## Data Storage
+
+During execution of `run.ts`, all raw model outputs are stored in a local SQLite database at `.data/logs.db`. Key points about the data storage:
+
+- Responses are stored as unprocessed outputs from the LLM without any evaluation
+- Entries are keyed by model-name and question ID to prevent unnecessary duplicate work
+- The database serves as a cache, so if you run the same model on the same questions, it will skip already-completed items
+- Use `exportLogs.ts` to export the database to JSONL format and `importLogs.ts` to import from JSONL, which is useful for transporting results between environments
