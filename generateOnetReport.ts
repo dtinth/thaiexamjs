@@ -57,6 +57,10 @@ class ModelStats {
       0
     );
   }
+
+  get acc() {
+    return (this.correct / this.total) * 100;
+  }
 }
 
 const subjectThaiNames = {
@@ -227,6 +231,7 @@ function renderReport() {
           <th class="text-end" scope="col">Science</th>
           <th class="text-end" scope="col">Math</th>
           <th class="text-end" scope="col">Overall</th>
+          <th class="text-end" scope="col">Acc</th>
         </tr>
       </thead>
       <tbody>
@@ -259,6 +264,7 @@ function renderReport() {
               <td class="text-end">
                 ${ui.ofTotal(stats.correct, stats.total)}
               </td>
+              <td class="text-end">${stats.acc.toFixed(2)}%</td>
             </tr>`;
           })}
         <tr>
@@ -283,6 +289,13 @@ function renderReport() {
               round(Object.values(m6Stats).reduce((acc, x) => acc + x, 0)),
               63 + 63 + 20 + 16
             )}
+          </td>
+          <td class="text-end">
+            ${(
+              (Object.values(m6Stats).reduce((acc, x) => acc + x, 0) /
+                (63 + 63 + 20 + 16)) *
+              100
+            ).toFixed(2)}%
           </td>
         </tr>
       </tbody>
