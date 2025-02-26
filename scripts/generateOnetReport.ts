@@ -1,8 +1,8 @@
 import { getOrCreate } from "@thai/get-or-create";
 import { html, renderHtml, type Html } from "@thai/html";
 import { micromark } from "micromark";
-import type { Report } from "./Report";
-import { modelPresets } from "./modelPresets";
+import type { Report } from "../src/Report";
+import { modelPresets } from "../src/modelPresets";
 
 const report = (await Bun.file("docs/onet.json").json()) as Report;
 

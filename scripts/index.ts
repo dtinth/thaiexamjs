@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
-import { evaluateQuestion } from "./evaluateQuestion";
-import { gradeLogEntry } from "./gradeLogEntry";
-import { getQuestionFiles, loadQuestion } from "./loadQuestion";
-import type { LogEntry } from "./LogEntry";
-import { logStorage } from "./logStorage";
-import { modelPresets } from "./modelPresets";
+import { evaluateQuestion } from "../src/evaluateQuestion";
+import { gradeLogEntry } from "../src/gradeLogEntry";
+import { getQuestionFiles, loadQuestion } from "../src/loadQuestion";
+import type { LogEntry } from "../src/LogEntry";
+import { logStorage } from "../src/logStorage";
+import { modelPresets } from "../src/modelPresets";
 
 const presetId = Bun.argv[2];
 const preset = modelPresets[presetId];

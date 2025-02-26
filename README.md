@@ -32,16 +32,16 @@ To run:
 
 ```bash
 # Make the model take exams
-bun run index.ts <model-name>
+bun run scripts/index.ts <model-name>
 
 # Run with sharding (process different subsets of exams)
-SHARD=1/3 bun run index.ts <model-name>  # Process first third of exams
-SHARD=2/3 bun run index.ts <model-name>  # Process second third of exams
-SHARD=3/3 bun run index.ts <model-name>  # Process final third of exams
+SHARD=1/3 bun run scripts/index.ts <model-name>  # Process first third of exams
+SHARD=2/3 bun run scripts/index.ts <model-name>  # Process second third of exams
+SHARD=3/3 bun run scripts/index.ts <model-name>  # Process final third of exams
 
 # Generate summarized file (`docs/onet.json`)
-bun run summarize.ts
+bun run scripts/summarize.ts
 
 # Generate HTML report file (`docs/onet.html`)
-bun run generateOnetReport.ts
+bun run scripts/generateOnetReport.ts
 ```

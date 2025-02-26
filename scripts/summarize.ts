@@ -1,9 +1,9 @@
 import { getOrCreate } from "@thai/get-or-create";
-import { gradeLogEntry } from "./gradeLogEntry";
-import { loadQuestion } from "./loadQuestion";
-import type { LogEntry } from "./LogEntry";
-import { logStorage } from "./logStorage";
-import type { Report } from "./Report";
+import { gradeLogEntry } from "../src/gradeLogEntry";
+import { loadQuestion } from "../src/loadQuestion";
+import type { LogEntry } from "../src/LogEntry";
+import { logStorage } from "../src/logStorage";
+import type { Report } from "../src/Report";
 
 const byModel = new Map<string, ModelInfo>();
 class ModelInfo {

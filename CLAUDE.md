@@ -2,10 +2,10 @@
 
 ## Commands
 
-- Run with model: `bun run index.ts <model-preset-id>`
-- Run specific test: `bun run test.ts` (modify preset/question in file)
-- Generate summary: `bun run summarize.ts`
-- Generate HTML report: `bun run generateOnetReport.ts`
+- Run with model: `bun run scripts/index.ts <model-preset-id>`
+- Run specific test: `bun run scripts/test.ts` (modify preset/question in file)
+- Generate summary: `bun run scripts/summarize.ts`
+- Generate HTML report: `bun run scripts/generateOnetReport.ts`
 
 ## Environment
 

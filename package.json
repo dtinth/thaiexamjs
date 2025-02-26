@@ -15,7 +15,7 @@
     "uuidv7": "^1.0.2"
   },
   "name": "thaiexamjs",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "devDependencies": {
     "@tsconfig/bun": "^1.0.7",
