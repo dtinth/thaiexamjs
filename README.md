@@ -1,6 +1,6 @@
 # thaiexamjs
 
-An experiment and visualization project that evaluates AI language models on Thai standardized exams using the ThaiExam dataset published by SCB 10X (https://www.scb.co.th/en/about-us/news/oct-2024/scb10x-standford.html) to HELM (https://crfm.stanford.edu/helm/thaiexam/latest/). 
+An experiment and visualization project that evaluates AI language models on Thai standardized exams using the [ThaiExam dataset published by SCB 10X](https://www.scb.co.th/en/about-us/news/oct-2024/scb10x-standford.html) to [HELM](https://crfm.stanford.edu/helm/thaiexam/latest/).
 
 This project differs from HELM's evaluation approach in several important ways:
 
