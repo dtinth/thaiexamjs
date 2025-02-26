@@ -1,4 +1,9 @@
-import { generateText, type CoreMessage, type LanguageModelUsage } from "ai";
+import {
+  generateText,
+  streamText,
+  type CoreMessage,
+  type LanguageModelUsage,
+} from "ai";
 import { modelPresets } from "./modelPresets";
 
 export async function evaluateQuestion(
@@ -35,19 +40,45 @@ export async function evaluateQuestion(
   });
   let temperature = 0;
   const startTime = performance.now();
-  const result = await generateText({
+
+  type GenerateOptions = Parameters<typeof streamText>[0] &
+    Parameters<typeof generateText>[0];
+  const options: GenerateOptions = {
     model,
     temperature,
     messages: inputMessages,
     providerOptions,
-
     // Typhoon API defaults to 128 tokens, but we need more for some models
     ...(modelPresetId.includes("typhoon-v1")
       ? { maxTokens: 4096 }
       : modelPresetId.includes("typhoon")
       ? { maxTokens: 8192 }
       : {}),
-  });
+  };
+
+  const result = await (async () => {
+    if (process.env["USE_STREAMING_API"]) {
+      const stream = streamText(options);
+      for await (const textPart of stream.textStream) {
+        if (process.env["SHOW_MODEL_OUTPUT"]) {
+          process.stdout.write(textPart);
+        }
+      }
+      return {
+        finishReason: await stream.finishReason,
+        providerMetadata: await stream.providerMetadata,
+        reasoning: await stream.reasoning,
+        reasoningDetails: await stream.reasoningDetails,
+        sources: await stream.sources,
+        text: await stream.text,
+        usage: await stream.usage,
+        warnings: await stream.warnings,
+      };
+    } else {
+      return generateText(options);
+    }
+  })();
+
   const endTime = performance.now();
   return {
     inputMessages,

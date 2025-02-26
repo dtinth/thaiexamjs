@@ -1,6 +1,6 @@
 import { evaluateQuestion } from "../src/evaluateQuestion";
 
-const presetId = "deepseek-r1-distill-llama-70b";
+const presetId = "gemini-2.0-flash-001";
 console.log(
   await evaluateQuestion(presetId, {
     question:
