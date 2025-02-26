@@ -2,12 +2,19 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { deepseek } from "@ai-sdk/deepseek";
 import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { createAzure } from "@quail-ai/azure-ai-provider";
 import type { LanguageModelV1 } from "ai";
 
 const azureAiFoundry = createAzure({
   apiKey: process.env["AZURE_API_KEY"],
   endpoint: process.env["AZURE_API_ENDPOINT"]!,
+});
+
+const groq = createOpenAICompatible({
+  name: "groq",
+  apiKey: process.env["GROQ_API_KEY"],
+  baseURL: "https://api.groq.com/openai/v1",
 });
 
 export const modelPresets: Record<string, ModelPreset> = {
@@ -79,6 +86,14 @@ export const modelPresets: Record<string, ModelPreset> = {
   "claude-3-5-haiku-20241022": {
     createModel: (id) => anthropic(id),
     cost: [0.8, 4],
+  },
+  "deepseek-r1-distill-qwen-32b": {
+    createModel: (id) => groq(id),
+    cost: [0.69, 0.69],
+  },
+  "deepseek-r1-distill-llama-70b": {
+    createModel: (id) => groq(id),
+    cost: [0.99, 0.99],
   },
   "DeepSeek-R1": {
     createModel: (id) => azureAiFoundry(id),

@@ -15,25 +15,38 @@ class ModelStats {
   bySubject: Record<string, { correct: number; total: number }> = {};
   promptTokens = 0;
   completionTokens = 0;
+
+  get pricing() {
+    const info = modelPresets[this.model];
+    return {
+      promptCost: info?.cost?.[0] ?? 0,
+      completionCost: info?.cost?.[1] ?? 0,
+    };
+  }
+
+  get promptCost() {
+    return (this.promptTokens / 1e6) * this.pricing.promptCost;
+  }
+
+  get completionCost() {
+    return (this.completionTokens / 1e6) * this.pricing.completionCost;
+  }
+
+  get cost() {
+    return this.promptCost + this.completionCost;
+  }
+
   get correct() {
     return Object.values(this.bySubject).reduce(
       (acc, { correct }) => acc + correct,
       0
     );
   }
+
   get total() {
     return Object.values(this.bySubject).reduce(
       (acc, { total }) => acc + total,
       0
-    );
-  }
-  get cost() {
-    const info = modelPresets[this.model];
-    const promptCost = info?.cost?.[0] ?? 0;
-    const completionCost = info?.cost?.[1] ?? 0;
-    return (
-      (this.promptTokens / 1e6) * promptCost +
-      (this.completionTokens / 1e6) * completionCost
     );
   }
 }
@@ -50,8 +63,8 @@ function uiToolkit() {
   let nextId = 1;
   const genId = () => `😭${nextId++}`;
   return {
-    ofTotal(correct: number, total: number) {
-      return [`${correct}`, html`<small class="text-muted">/${total}</small>`];
+    ofTotal(correct: Html, total: number) {
+      return [correct, html`<small class="text-muted">/${total}</small>`];
     },
     tooltip: (content: Html, title: string) => {
       const id = genId();
@@ -177,7 +190,7 @@ function renderReport() {
   const ui = uiToolkit();
   const byModel = new Map<string, ModelStats>();
   for (const { questionKey, question, answers } of report.questions) {
-    console.log(questionKey, question.subject);
+    // console.log(questionKey, question.subject);
     for (const [model, answer] of Object.entries(answers)) {
       const stats = getOrCreate(byModel, model, () => new ModelStats(model));
       stats.bySubject[question.subject] ||= { correct: 0, total: 0 };
@@ -189,12 +202,12 @@ function renderReport() {
       stats.completionTokens += answer.result.usage.completionTokens;
     }
   }
-  const modelNames = report.modelNames.sort();
+  const modelNames = report.modelNames.sort((a, b) => a.localeCompare(b));
   const output: Html[] = [];
   const appendix: Html[] = [];
 
   // Overall ranking
-  const round = (x: number) => Math.round(x * 10) / 10;
+  const round = (x: number) => ui.tooltip(Math.round(x), x.toFixed(2));
   output.push(html`<h2>Overall ranking</h2>
     <table class="table">
       <thead>
@@ -212,9 +225,18 @@ function renderReport() {
         ${Array.from(byModel.values())
           .sort((a, b) => b.correct - a.correct)
           .map((stats) => {
+            const tooltipContent =
+              `input: ${stats.promptTokens.toLocaleString()} tokens (${thb(
+                stats.promptCost
+              )}); ` +
+              `output: ${stats.completionTokens.toLocaleString()} tokens (${thb(
+                stats.completionCost
+              )})`;
             return html`<tr>
               <td>${modelName(stats.model)}</td>
-              <td class="text-end">${thb(stats.cost)}</td>
+              <td class="text-end">
+                ${ui.tooltip(thb(stats.cost), tooltipContent)}
+              </td>
               ${subjectNames.map((subject) => {
                 const { correct, total } = stats.bySubject[subject] || {
                   correct: 0,
@@ -231,9 +253,14 @@ function renderReport() {
           })}
         <tr>
           <td class="text-muted">
-            M6 students average (adjusted,
+            M6 students average
+            (${ui.tooltip(
+              "adjusted",
+              "The percentage score from NIETS statistics is multiplied by the number of questions in the test and then rounded to the nearest integer to obtain this number."
+            )}
+            from
             <a href="https://www.niets.or.th/th/content/view/11821"
-              >statistics from NIETS</a
+              >stats published by NIETS</a
             >)
           </td>
           <td></td>
@@ -427,7 +454,7 @@ await Bun.write(
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Ranking</title>
+        <title>LLM Performance on Thai O-NET Tests</title>
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -450,8 +477,28 @@ await Bun.write(
         ></script>
       </head>
       <body>
+        <div class="container">
+          <div class="py-4">
+            <h1>LLM Performance on Thai O-NET Tests</h1>
+            <p class="lead">
+              This dashboard showcases how different AI models perform on
+              Thailand’s O-NET standardized tests.
+            </p>
+            <p>
+              <a
+                href="https://github.com/dtinth/thaiexamjs"
+                class="btn btn-outline-light"
+                target="_blank"
+              >
+                <iconify-icon icon="mdi:github"></iconify-icon> View on GitHub
+              </a>
+            </p>
+          </div>
+        </div>
         ${renderReport()}
       </body>
     </html>
   `)
 );
+
+console.log("Done!");
