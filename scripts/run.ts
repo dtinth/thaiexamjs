@@ -1,8 +1,7 @@
-import { createHash } from "node:crypto";
 import { evaluateQuestion } from "../src/evaluateQuestion";
 import { gradeLogEntry } from "../src/gradeLogEntry";
 import { getQuestionFiles, loadQuestion } from "../src/loadQuestion";
-import type { LogEntry } from "../src/LogEntry";
+import { calculateLogId, type LogEntry } from "../src/LogEntry";
 import { logStorage } from "../src/logStorage";
 import { modelPresets } from "../src/modelPresets";
 
@@ -23,11 +22,7 @@ for (const file of files) {
 
   const questions = await loadQuestion(file);
   for (const [index, question] of questions.entries()) {
-    let key = [file, index, model.modelId, model.provider].join("/");
-    if (preset.providerOptions) {
-      key = [file, index, presetId].join("/");
-    }
-    const id = createHash("md5").update(key).digest("hex");
+    const id = calculateLogId({ presetId, file, index });
 
     if (process.env["SHARD"]) {
       const [a, b] = process.env["SHARD"].split("/").map(Number);
