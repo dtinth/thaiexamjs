@@ -1,5 +1,4 @@
 import { anthropic } from "@ai-sdk/anthropic";
-import { deepseek } from "@ai-sdk/deepseek";
 import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
@@ -24,26 +23,54 @@ const opentyphoon = createOpenAICompatible({
 });
 
 export const modelPresets: Record<string, ModelPreset> = {
-  "gpt-4o-mini-2024-07-18": {
-    createModel: (id) => openai(id),
-    cost: [0.15, 0.6],
+  // Anthropic Claude models
+  "claude-3-5-haiku-20241022": {
+    createModel: (id) => anthropic(id),
+    cost: [0.8, 4],
   },
-  "gpt-4o-2024-08-06": {
-    createModel: (id) => openai(id),
-    cost: [2.5, 10],
+  "claude-3-5-sonnet-20240620": {
+    createModel: (id) => anthropic(id),
+    cost: [3, 15],
   },
-  "o1-mini-2024-09-12": {
-    createModel: (id) => openai(id),
-    cost: [1.1, 4.4],
+  "claude-3-5-sonnet-20241022": {
+    createModel: (id) => anthropic(id),
+    cost: [3, 15],
   },
-  "deepseek-chat": {
-    createModel: (id) => deepseek(id),
-    cost: [0.27, 1.1],
+  "claude-3-7-sonnet-20250219": {
+    createModel: (id) => anthropic(id),
+    cost: [3, 15],
   },
-  "deepseek-reasoner": {
-    createModel: (id) => deepseek(id),
+  "claude-3-7-sonnet-20250219[thinking=16k]": {
+    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
+    cost: [3, 15],
+    providerOptions: {
+      anthropic: {
+        thinking: { type: "enabled", budgetTokens: 12000 },
+      },
+    },
+  },
+
+  // DeepSeek models
+  // The APIs is quite unstable, so we’re using Azure AI Foundry and Groq instead
+  // "deepseek-reasoner": {
+  //   createModel: (id) => deepseek(id),
+  //   cost: [0.55, 2.19],
+  // },
+  "DeepSeek-R1": {
+    createModel: (id) => azureAiFoundry(id),
     cost: [0.55, 2.19],
+    displayName: "deepseek-r1-671b",
   },
+  "deepseek-r1-distill-llama-70b": {
+    createModel: (id) => groq(id),
+    cost: [0.99, 0.99],
+  },
+  "deepseek-r1-distill-qwen-32b": {
+    createModel: (id) => groq(id),
+    cost: [0.69, 0.69],
+  },
+
+  // Google Gemini models
   "gemini-1.5-flash-002": {
     createModel: (id) => google(id),
     cost: [0.075, 0.3],
@@ -68,51 +95,33 @@ export const modelPresets: Record<string, ModelPreset> = {
     createModel: (id) => google(id),
     cost: [0, 0],
   },
-  "claude-3-5-sonnet-20240620": {
-    createModel: (id) => anthropic(id),
-    cost: [3, 15],
+
+  // OpenAI GPT-4o models
+  "gpt-4o-2024-08-06": {
+    createModel: (id) => openai(id),
+    cost: [2.5, 10],
   },
-  "claude-3-5-sonnet-20241022": {
-    createModel: (id) => anthropic(id),
-    cost: [3, 15],
+  "gpt-4o-mini-2024-07-18": {
+    createModel: (id) => openai(id),
+    cost: [0.15, 0.6],
   },
-  "claude-3-7-sonnet-20250219": {
-    createModel: (id) => anthropic(id),
-    cost: [3, 15],
+
+  // OpenAI O1 models
+  "o1-mini-2024-09-12": {
+    createModel: (id) => openai(id),
+    cost: [1.1, 4.4],
   },
-  "claude-3-7-sonnet-20250219[thinking=16k]": {
-    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
-    cost: [3, 15],
-    providerOptions: {
-      anthropic: {
-        thinking: { type: "enabled", budgetTokens: 12000 },
-      },
-    },
-  },
-  "claude-3-5-haiku-20241022": {
-    createModel: (id) => anthropic(id),
-    cost: [0.8, 4],
-  },
-  "deepseek-r1-distill-qwen-32b": {
-    createModel: (id) => groq(id),
-    cost: [0.69, 0.69],
-  },
-  "deepseek-r1-distill-llama-70b": {
-    createModel: (id) => groq(id),
-    cost: [0.99, 0.99],
-  },
-  "DeepSeek-R1": {
-    createModel: (id) => azureAiFoundry(id),
-    cost: [0.55, 2.19],
-    displayName: "deepseek-r1-671b",
-  },
+
+  // Microsoft's Phi model
   "Phi-4": {
     createModel: (id) => azureAiFoundry(id),
     cost: [0, 0],
   },
-  "typhoon-v2-r1-70b-preview": {
+
+  // SCB 10X's Typhoon models
+  "typhoon-v1.5x-70b-instruct": {
     createModel: (id) => opentyphoon(id),
-    cost: [0.9, 0.9], // Based on https://www.together.ai/pricing
+    cost: [0.9, 0.9], // Based on https://www.together.ai/pricings
   },
   "typhoon-v2-70b-instruct": {
     createModel: (id) => opentyphoon(id),
@@ -122,9 +131,9 @@ export const modelPresets: Record<string, ModelPreset> = {
     createModel: (id) => opentyphoon(id),
     cost: [0.2, 0.2], // Based on https://www.together.ai/pricing
   },
-  "typhoon-v1.5x-70b-instruct": {
+  "typhoon-v2-r1-70b-preview": {
     createModel: (id) => opentyphoon(id),
-    cost: [0.9, 0.9], // Based on https://www.together.ai/pricings
+    cost: [0.9, 0.9], // Based on https://www.together.ai/pricing
   },
 };
 
