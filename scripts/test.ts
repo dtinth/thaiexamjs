@@ -1,6 +1,6 @@
 import { evaluateQuestion } from "../src/evaluateQuestion";
 
-const presetId = "gemini-2.0-flash-001";
+const presetId = "DeepSeek-R1";
 console.log(
   await evaluateQuestion(presetId, {
     question:

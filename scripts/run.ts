@@ -54,7 +54,10 @@ for (const file of files) {
       }
       showLogEntry(logEntry);
     } catch (error) {
-      console.error("Error:", key, error);
+      console.error(
+        [id, presetId, file + "[" + index + "]", "💥 ERROR"].join(" | ")
+      );
+      console.error(error);
     }
   }
 }
@@ -64,7 +67,7 @@ function showLogEntry(logEntry: LogEntry) {
   console.log(
     [
       logEntry.id,
-      logEntry.provider + "/" + logEntry.modelId,
+      logEntry.presetId,
       logEntry.file + "[" + logEntry.index + "]",
       gradingResult.expected,
       gradingResult.actual || "?",
