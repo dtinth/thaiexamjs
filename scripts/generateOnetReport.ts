@@ -201,8 +201,7 @@ const m6Stats: Record<keyof typeof subjectThaiNames, number> = {
 function renderReport() {
   const ui = uiToolkit();
   const byModel = new Map<string, ModelStats>();
-  for (const { questionKey, question, answers } of report.questions) {
-    // console.log(questionKey, question.subject);
+  for (const { question, answers } of report.questions) {
     for (const [model, answer] of Object.entries(answers)) {
       const stats = getOrCreate(byModel, model, () => new ModelStats(model));
       stats.bySubject[question.subject] ||= { correct: 0, total: 0 };

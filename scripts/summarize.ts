@@ -1,7 +1,7 @@
 import { getOrCreate } from "@thai/get-or-create";
 import { gradeLogEntry } from "../src/gradeLogEntry";
 import type { LogEntry } from "../src/LogEntry";
-import { logStorage } from "../src/logStorage";
+import { getAllLogs } from "../src/logStorage";
 import type { Report } from "../src/Report";
 import { examPresets } from "../src/examPresets";
 
@@ -13,8 +13,7 @@ class ModelInfo {
     this.logEntries.set(key, logEntry);
   }
 }
-for (const [k, v] of logStorage as any) {
-  const logEntry: LogEntry = JSON.parse(v);
+for (const logEntry of getAllLogs()) {
   const presetId = logEntry.presetId || logEntry.modelId;
   getOrCreate(byModel, presetId, () => new ModelInfo()).process(logEntry);
 }
