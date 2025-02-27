@@ -1,9 +1,9 @@
 import { getOrCreate } from "@thai/get-or-create";
+import { examPresets } from "../src/examPresets";
 import { gradeLogEntry } from "../src/gradeLogEntry";
 import type { LogEntry } from "../src/LogEntry";
-import { getAllLogs } from "../src/logStorage";
+import { getAllLogEntries } from "../src/logStorage";
 import type { Report } from "../src/Report";
-import { examPresets } from "../src/examPresets";
 
 const byModel = new Map<string, ModelInfo>();
 class ModelInfo {
@@ -13,7 +13,7 @@ class ModelInfo {
     this.logEntries.set(key, logEntry);
   }
 }
-for (const logEntry of getAllLogs()) {
+for (const logEntry of getAllLogEntries()) {
   const presetId = logEntry.presetId || logEntry.modelId;
   getOrCreate(byModel, presetId, () => new ModelInfo()).process(logEntry);
 }
@@ -21,12 +21,12 @@ for (const logEntry of getAllLogs()) {
 async function createReport(examId: string) {
   const examPreset = examPresets.get(examId);
   const questionEntries = examPreset.questionEntries;
-  
+
   const output: Report = {
     questions: [],
     modelNames: Array.from(byModel.keys()),
   };
-  
+
   for (const { file, index, question } of questionEntries) {
     const questionKey = `${file}[${index}]`;
     const questionInfo: (typeof output.questions)[number] = {
@@ -52,7 +52,4 @@ async function createReport(examId: string) {
   return output;
 }
 
-await Bun.write(
-  "docs/onet.json",
-  JSON.stringify(await createReport("onet"))
-);
+await Bun.write("docs/onet.json", JSON.stringify(await createReport("onet")));

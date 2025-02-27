@@ -140,7 +140,8 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [0.9, 0.9], // Based on https://www.together.ai/pricings
   },
   "typhoon-v2-70b-instruct": {
-    createModel: (id) => opentyphoon(id),
+    // createModel: (id) => opentyphoon(id),
+    createModel: (id) => together("scb10x/scb10x-llama3-1-typhoon2-60256"),
     cost: [0.9, 0.9], // Based on https://www.together.ai/pricing
   },
   "typhoon-v2-8b-instruct": {

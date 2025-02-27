@@ -38,7 +38,7 @@ export async function evaluateQuestion(
       )
     ),
   });
-  let temperature = 0;
+  let temperature = +process.env["TEMPERATURE"]! || 0;
   const startTime = performance.now();
 
   type GenerateOptions = Parameters<typeof streamText>[0] &
@@ -52,7 +52,7 @@ export async function evaluateQuestion(
     ...(modelPresetId.includes("typhoon-v1")
       ? { maxTokens: 4096 }
       : modelPresetId.includes("typhoon")
-      ? { maxTokens: 8192 }
+      ? { maxTokens: 7168 }
       : {}),
   };
 

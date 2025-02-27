@@ -22,3 +22,13 @@
 - Naming: camelCase for variables/functions, PascalCase for types/interfaces
 - Use async/await for asynchronous operations
 - Explicit type annotations for function parameters and returns
+
+## Architecture Patterns
+
+- **Singleton Pattern**: Implemented with module-scoped instances for global access
+- **Lazy Initialization**: Using nullish coalescing with assignment (`??=`) for just-in-time resource creation
+- **Factory Pattern**: Static creation methods and factory functions to handle object construction
+- **getOrCreate Pattern**: Using `@thai/get-or-create` utility for memoized object creation
+- **Map-based Storage**: Using Maps for efficient key-value data management
+- **Class-based Design**: Encapsulating functionality in classes with clear interfaces
+- **HTML Generation**: Using `@thai/html` template literal tags for type-safe HTML generation

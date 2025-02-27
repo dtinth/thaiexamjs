@@ -3,7 +3,7 @@ import { Readable, compose } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import zlib from "node:zlib";
 import yargs from "yargs";
-import { getAllLogs } from "../src/logStorage";
+import { getAllLogEntries } from "../src/logStorage";
 
 const argv = await yargs(process.argv.slice(2))
   .option("o", {
@@ -19,7 +19,7 @@ const outputPath = argv.o as string | undefined;
 
 // Create an async iterable of log entries
 async function* generateLogs() {
-  for (const logEntry of getAllLogs()) {
+  for (const logEntry of getAllLogEntries()) {
     yield JSON.stringify(logEntry) + "\n";
   }
 }

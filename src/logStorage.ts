@@ -9,10 +9,29 @@ db.exec("PRAGMA busy_timeout = 3000");
 export const logStorage = createSqlStorage(db);
 
 /**
+ * Retrieves a specific log entry by its ID
+ * @param id The log entry ID
+ * @returns The log entry
+ * @throws Error if the log entry is not found or couldn't be parsed
+ */
+export function getLogEntry(id: string): LogEntry {
+  const value = logStorage[id];
+  if (!value) {
+    throw new Error(`Log entry not found: ${id}`);
+  }
+
+  try {
+    return JSON.parse(value) as LogEntry;
+  } catch (e) {
+    throw new Error(`Error parsing log entry ${id}: ${e}`);
+  }
+}
+
+/**
  * Returns an iterator for all stored log entries.
  * This provides a memory-efficient way to iterate through all logs.
  */
-export function* getAllLogs(): Generator<LogEntry> {
+export function* getAllLogEntries(): Generator<LogEntry> {
   for (const [key, value] of logStorage as any) {
     if (value) {
       try {

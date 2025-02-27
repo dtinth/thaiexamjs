@@ -1,4 +1,4 @@
-import { getAllLogs } from "./logStorage";
+import { getAllLogEntries } from "./logStorage";
 
 const skus: Record<string, number> = {};
 
@@ -37,7 +37,7 @@ function increaseSku(id: string, value: number) {
   skus[id] = (skus[id] || 0) + value;
 }
 
-for (const logEntry of getAllLogs()) {
+for (const logEntry of getAllLogEntries()) {
   const prefix = logEntry.provider + "/" + logEntry.modelId;
   increaseSku(`${prefix}:promptTokens`, logEntry.result.usage.promptTokens);
   increaseSku(
