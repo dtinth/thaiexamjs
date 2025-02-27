@@ -77,11 +77,6 @@ function renderModelReportTable(examReport: ExamReport, ui: UiToolkit): Html {
   );
   const totalQuestions = subjectTotals.reduce((acc, count) => acc + count, 0);
 
-  // Get subject IDs in the same order as they appear in the model report
-  const subjectIds = firstReport.statsBySubject.map(
-    (stats) => stats.subjectEntry.subject
-  );
-
   return html`
     <h2>Overall ranking</h2>
     <table class="table">

@@ -33,6 +33,7 @@
     "run-model": "bun run scripts/run.ts",
     "report": "bun run scripts/printReport.ts",
     "export": "bun run scripts/exportLogs.ts -o snapshot.jsonl.br",
-    "import": "bun run scripts/importLogs.ts -i snapshot.jsonl.br"
+    "import": "bun run scripts/importLogs.ts -i snapshot.jsonl.br",
+    "html": "bun run scripts/generateExamReport.ts"
   }
 }
