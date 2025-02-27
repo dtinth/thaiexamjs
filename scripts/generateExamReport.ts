@@ -1,8 +1,15 @@
 import { renderHtml } from "@thai/html";
 import { reporting } from "../src/reporting";
-import { renderExamReportPage } from "../src/reportRenderer/renderExamReportPage";
+import {
+  examsToPublish,
+  renderExamReportPage,
+} from "../src/reportRenderer/renderExamReportPage";
 
-const examId = "tpat1";
-const examReport = reporting.getExam(examId);
-
-Bun.write(`docs/${examId}.html`, renderHtml(renderExamReportPage(examReport)));
+for (const examId of examsToPublish) {
+  const examReport = reporting.getExam(examId);
+  Bun.write(
+    `docs/${examId}.html`,
+    renderHtml(renderExamReportPage(examReport))
+  );
+  console.log(`Generated ${examId}.html`);
+}

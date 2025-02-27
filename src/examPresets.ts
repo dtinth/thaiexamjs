@@ -5,6 +5,7 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
   onet: {
     filePaths: ["thai_exam/data/onet/onet_test.jsonl"],
     shortTitle: "Thai O-NET Tests",
+    shortEnglishDescription: "O-NET standardized tests",
     title: "O-NET: Ordinary National Educational Test (ชั้นมัธยมศึกษาปีที่ 6)",
     description: "การทดสอบทางการศึกษาระดับชาติขั้นพื้นฐาน",
     subjects: {
@@ -25,28 +26,40 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
         title: "คณิตศาสตร์",
       },
     },
+    humanScore: {
+      bySubject: {
+        thai: (46.4 * 63) / 100,
+        social: (36.87 * 63) / 100,
+        science: (28.65 * 20) / 100,
+        math: (21.28 * 16) / 100,
+      },
+    },
   },
   a_level: {
     filePaths: ["thai_exam/data/a_level/a_level_test.jsonl"],
     shortTitle: "Thai A-Level Tests",
+    shortEnglishDescription: "Applied Knowledge Level tests",
     title: "A-Level: Applied Knowledge Level",
     description: "การทดสอบความรู้เชิงวิชาการระดับประยุกต์",
   },
   ic: {
     filePaths: ["thai_exam/data/ic/ic_test.jsonl"],
-    shortTitle: "Thai Investment Consultant Tests",
+    shortTitle: "Thai Investment Consultant Exam",
+    shortEnglishDescription: "Investment Consultant exam",
     title: "IC: Investment Consultant",
     description: "การทดสอบใบอนุญาตผู้แนะนำการลงทุน",
   },
   tgat: {
     filePaths: ["thai_exam/data/tgat/tgat_test.jsonl"],
     shortTitle: "TGAT Tests",
+    shortEnglishDescription: "TGAT standardized tests",
     title: "TGAT: Thai General Aptitude Test",
     description: "การทดสอบความถนัดทั่วไป",
   },
   tpat1: {
     filePaths: ["thai_exam/data/tpat1/tpat1_test.jsonl"],
     shortTitle: "TPAT-1 Tests",
+    shortEnglishDescription: "professional aptitude tests for medical students",
     title: "TPAT-1: The Thai Professional Aptitude Test 1",
     description: "การทดสอบความถนัดเฉพาะด้านวิชาชีพ 1 (ความถนัดแพทย์)",
     subjects: {
@@ -64,15 +77,21 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
 
 interface ExamPresetDefinition {
   shortTitle: string;
+  shortEnglishDescription: string;
   filePaths: string[];
   title: string;
   description: string;
   subjects?: Record<string, SubjectDefinition>;
+  humanScore?: HumanScore;
 }
 
 export interface SubjectDefinition {
   shortTitle: string;
   title: string;
+}
+
+export interface HumanScore {
+  bySubject: Record<string, number>;
 }
 
 export class ExamPresets {
@@ -125,8 +144,16 @@ export class ExamPreset {
     return this.definition.shortTitle;
   }
 
+  get shortEnglishDescription() {
+    return this.definition.shortEnglishDescription;
+  }
+
   get subjects() {
     return this.definition.subjects;
+  }
+
+  get humanScore() {
+    return this.definition.humanScore;
   }
 }
 

@@ -36,6 +36,8 @@ export function htmlPage(title: string, content: Html) {
     </html>`;
 }
 
+export type UiToolkit = ReturnType<typeof uiToolkit>;
+
 export function uiToolkit() {
   let nextId = 1;
   const genId = () => `😭${nextId++}`;

@@ -4,12 +4,21 @@ import { calculateLogId } from "./LogEntry";
 import {
   ExamPreset,
   examPresets,
+  type HumanScore,
   type QuestionEntry,
   type SubjectDefinition,
 } from "./examPresets";
 import { gradeLogEntry, type GradingResult } from "./gradeLogEntry";
 import { getLogEntry } from "./logStorage";
 import { modelPresets } from "./modelPresets";
+
+const modelDisplayName = (preset: string) => {
+  return modelPresets[preset].displayName || preset;
+};
+
+const sortedModelPresetIds = Object.keys(modelPresets).sort((a, b) => {
+  return modelDisplayName(a).localeCompare(modelDisplayName(b));
+});
 
 export class Reporting {
   private exams: Map<string, ExamReport> = new Map();
@@ -29,6 +38,7 @@ export class Reporting {
 export interface SubjectEntry {
   subject: string;
   definition: SubjectDefinition;
+  humanScore?: number;
 }
 
 export class ExamReport {
@@ -50,6 +60,10 @@ export class ExamReport {
     return this.examPreset.shortTitle;
   }
 
+  get shortEnglishDescription(): string {
+    return this.examPreset.shortEnglishDescription;
+  }
+
   get subjectEntries(): SubjectEntry[] {
     if (this._subjectEntries) return this._subjectEntries;
 
@@ -58,11 +72,16 @@ export class ExamReport {
 
     // Convert the subjects record to an array of SubjectEntry objects
     return (this._subjectEntries = Object.entries(this.examPreset.subjects).map(
-      ([subject, definition]) => ({
+      ([subject, definition]): SubjectEntry => ({
         subject,
         definition,
+        humanScore: this.examPreset.humanScore?.bySubject[subject],
       })
     ));
+  }
+
+  get humanScore(): HumanScore | undefined {
+    return this.examPreset.humanScore;
   }
 
   get questionReports(): ExamQuestionReport[] {
@@ -204,7 +223,7 @@ export class ExamQuestionReport {
 
   private _getAllAnswers() {
     const answers: Record<string, AnswerReport> = {};
-    for (const presetId of Object.keys(modelPresets)) {
+    for (const presetId of sortedModelPresetIds) {
       answers[presetId] = new AnswerReport(this.questionEntry, presetId);
     }
     return answers;
@@ -265,6 +284,10 @@ export class AnswerReport {
 
   get completionTokens() {
     return this.data.found?.logEntry.result.usage.completionTokens || 0;
+  }
+
+  get modelDisplayName() {
+    return modelDisplayName(this.presetId);
   }
 }
 
