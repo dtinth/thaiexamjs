@@ -1,9 +1,9 @@
 import { evaluateQuestion } from "../src/evaluateQuestion";
 import { gradeLogEntry } from "../src/gradeLogEntry";
-import { getQuestionFiles, loadQuestion } from "../src/loadQuestion";
 import { calculateLogId, type LogEntry } from "../src/LogEntry";
 import { logStorage } from "../src/logStorage";
 import { modelPresets } from "../src/modelPresets";
+import { examPresets } from "../src/examPresets";
 
 const presetId = Bun.argv[2];
 const preset = modelPresets[presetId];
@@ -12,16 +12,17 @@ if (!model) {
   throw new Error("Invalid model");
 }
 
-const files = getQuestionFiles();
-for (const file of files) {
-  // Filter exams based on EXAM_FILTER environment variable
-  const examFilter = process.env["EXAM_FILTER"];
-  if (examFilter && !file.includes(examFilter)) {
-    continue;
-  }
+// Get exam types to process based on EXAM_FILTER environment variable
+const examFilter = process.env["EXAM_FILTER"];
+const examTypesToProcess = examFilter 
+  ? examPresets.availableExamPresetIds.filter(id => id.includes(examFilter))
+  : examPresets.availableExamPresetIds;
 
-  const questions = await loadQuestion(file);
-  for (const [index, question] of questions.entries()) {
+for (const examType of examTypesToProcess) {
+  const examPreset = examPresets.get(examType);
+  const questionEntries = examPreset.questionEntries;
+
+  for (const { file, index, question } of questionEntries) {
     const id = calculateLogId({ presetId, file, index });
 
     if (process.env["SHARD"]) {

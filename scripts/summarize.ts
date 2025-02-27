@@ -1,9 +1,9 @@
 import { getOrCreate } from "@thai/get-or-create";
 import { gradeLogEntry } from "../src/gradeLogEntry";
-import { loadQuestion } from "../src/loadQuestion";
 import type { LogEntry } from "../src/LogEntry";
 import { logStorage } from "../src/logStorage";
 import type { Report } from "../src/Report";
+import { examPresets } from "../src/examPresets";
 
 const byModel = new Map<string, ModelInfo>();
 class ModelInfo {
@@ -19,13 +19,16 @@ for (const [k, v] of logStorage as any) {
   getOrCreate(byModel, presetId, () => new ModelInfo()).process(logEntry);
 }
 
-async function createReport(file: string) {
-  const questions = await loadQuestion(file);
+async function createReport(examId: string) {
+  const examPreset = examPresets.get(examId);
+  const questionEntries = examPreset.questionEntries;
+  
   const output: Report = {
     questions: [],
     modelNames: Array.from(byModel.keys()),
   };
-  for (const [index, question] of questions.entries()) {
+  
+  for (const { file, index, question } of questionEntries) {
     const questionKey = `${file}[${index}]`;
     const questionInfo: (typeof output.questions)[number] = {
       questionKey,
@@ -52,5 +55,5 @@ async function createReport(file: string) {
 
 await Bun.write(
   "docs/onet.json",
-  JSON.stringify(await createReport("thai_exam/data/onet/onet_test.jsonl"))
+  JSON.stringify(await createReport("onet"))
 );
