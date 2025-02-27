@@ -8,6 +8,11 @@
 - Display report on console: `bun run report`
 - Export logs: `bun run export`
 - Import logs: `bun run import`
+- Generate HTML reports: `bun html`
+
+## Important Notes
+
+- The `docs/` directory contains generated HTML files. Don't read or modify these directly; instead, update the generation scripts.
 
 ## Environment
 
