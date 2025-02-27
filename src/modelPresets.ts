@@ -22,6 +22,12 @@ const opentyphoon = createOpenAICompatible({
   baseURL: "https://api.opentyphoon.ai/v1",
 });
 
+const together = createOpenAICompatible({
+  name: "together",
+  apiKey: process.env["TOGETHER_API_KEY"],
+  baseURL: "https://api.together.xyz/v1",
+});
+
 export const modelPresets: Record<string, ModelPreset> = {
   // Anthropic Claude models
   "claude-3-opus-20240229": {
@@ -61,8 +67,10 @@ export const modelPresets: Record<string, ModelPreset> = {
   //   cost: [0.55, 2.19],
   // },
   "DeepSeek-R1": {
-    createModel: (id) => azureAiFoundry(id),
-    cost: [0.55, 2.19],
+    // createModel: (id) => azureAiFoundry(id),
+    // cost: [0.55, 2.19],
+    createModel: (id) => together("deepseek-ai/" + id),
+    cost: [3, 7],
     displayName: "deepseek-r1-671b",
   },
   "deepseek-r1-distill-llama-70b": {
