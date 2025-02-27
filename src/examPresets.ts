@@ -55,6 +55,16 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
     shortEnglishDescription: "TGAT standardized tests",
     title: "TGAT: Thai General Aptitude Test",
     description: "การทดสอบความถนัดทั่วไป",
+    subjects: {
+      TGAT2: {
+        shortTitle: "TGAT2",
+        title: "TGAT2 การคิดอย่างมีเหตุผล",
+      },
+      TGAT3: {
+        shortTitle: "TGAT3",
+        title: "TGAT3 สมรรถนะการทำงาน",
+      },
+    },
   },
   tpat1: {
     filePaths: ["thai_exam/data/tpat1/tpat1_test.jsonl"],
