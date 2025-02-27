@@ -24,6 +24,9 @@ export function renderExamReportPage(examReport: ExamReport) {
         ${examReport.shortEnglishDescription}.
       </p>
       <p>
+        <a href="./" class="btn btn-outline-light me-2">
+          <iconify-icon icon="mdi:arrow-left"></iconify-icon> Back to Index
+        </a>
         <a
           href="https://github.com/dtinth/thaiexamjs"
           class="btn btn-outline-light"
