@@ -32,27 +32,24 @@ To run:
 
 ```bash
 # Make the model take exams
-bun run scripts/run.ts <model-name>
+bun run-model <model-name>
 
 # Run with specific exam filter (e.g., only O-NET exams)
-EXAM_FILTER=onet bun run scripts/run.ts <model-name>
+EXAM_FILTER=onet bun run-model <model-name>
 
 # Run with sharding (process different subsets of exams)
-SHARD=1/3 bun run scripts/run.ts <model-name>  # Process first third of exams
-SHARD=2/3 bun run scripts/run.ts <model-name>  # Process second third of exams
-SHARD=3/3 bun run scripts/run.ts <model-name>  # Process final third of exams
+SHARD=1/3 bun run-model <model-name>  # Process first third of exams
+SHARD=2/3 bun run-model <model-name>  # Process second third of exams
+SHARD=3/3 bun run-model <model-name>  # Process final third of exams
 
-# Generate summarized file (`docs/onet.json`)
-bun run scripts/summarize.ts
+# Display a report on the console
+bun report
 
-# Generate HTML report file (`docs/onet.html`)
-bun run scripts/generateOnetReport.ts
+# Export logs from local database to JSONL (`snapshot.jsonl.br`)
+bun export
 
-# Export logs from database to JSONL (useful for transporting results)
-bun run scripts/exportLogs.ts
-
-# Import logs from JSONL to database
-bun run scripts/importLogs.ts
+# Import logs from from `snapshot.jsonl.br` into local database
+bun import
 ```
 
 ## Data Storage
@@ -62,4 +59,5 @@ During execution of `run.ts`, all raw model outputs are stored in a local SQLite
 - Responses are stored as unprocessed outputs from the LLM without any evaluation
 - Entries are keyed by model-name and question ID to prevent unnecessary duplicate work
 - The database serves as a cache, so if you run the same model on the same questions, it will skip already-completed items
-- Use `exportLogs.ts` to export the database to JSONL format and `importLogs.ts` to import from JSONL, which is useful for transporting results between environments
+- You can export/import the logs in the local DB to/from `snapshot.jsonl.br` using `bun export` and `bun import` scripts — this is useful for transporting logs from one machine to another
+- The repository contains the developer’s snapshot of `snapshot.jsonl.br` that you can import to get started (or you can skip to start with a blank slate)

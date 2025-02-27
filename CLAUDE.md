@@ -2,11 +2,12 @@
 
 ## Commands
 
-- Run with model: `bun run scripts/run.ts <model-preset-id>`
-- Run specific exam type: `EXAM_FILTER=onet bun run scripts/run.ts <model-preset-id>`
+- Run with model: `bun run run-model <model-preset-id>`
+- Run specific exam type: `EXAM_FILTER=onet bun run run-model <model-preset-id>`
 - Run specific test: `bun run scripts/test.ts` (modify preset/question in file)
-- Generate summary: `bun run scripts/summarize.ts`
-- Generate HTML report: `bun run scripts/generateOnetReport.ts`
+- Display report on console: `bun run report`
+- Export logs: `bun run export`
+- Import logs: `bun run import`
 
 ## Environment
 
