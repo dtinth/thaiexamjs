@@ -10,7 +10,7 @@ import type {
 } from "../reporting";
 import { htmlPage, uiToolkit, type UiToolkit } from "./uiToolkit";
 
-export const examsToPublish = ["onet", "tpat1"];
+export const examsToPublish = ["onet", "tpat1", "ic"];
 
 export function renderExamReportPage(examReport: ExamReport) {
   const [output, appendix] = renderReport(examReport);
@@ -185,7 +185,9 @@ function groupQuestionsBySubject(examReport: ExamReport): SubjectGroup[] {
   const subjectsMap = new Map(
     examReport.subjectEntries.map((entry) => [entry.subject, entry])
   );
-  const questionsBySubject = new Map<string, ExamQuestionReport[]>();
+  const questionsBySubject = new Map<string, ExamQuestionReport[]>(
+    examReport.subjectEntries.map((entry) => [entry.subject, []])
+  );
   for (const questionReport of examReport.questionReports) {
     const subject = questionReport.questionEntry.question.subject;
     getOrCreate(questionsBySubject, subject, () => []).push(questionReport);

@@ -44,10 +44,26 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
   },
   ic: {
     filePaths: ["thai_exam/data/ic/ic_test.jsonl"],
-    shortTitle: "Thai Investment Consultant Exam",
-    shortEnglishDescription: "Investment Consultant exam",
+    shortTitle: "Thai Investment Consultant Licensing Exams",
+    shortEnglishDescription: "Investment Consultant licensing exams",
     title: "IC: Investment Consultant",
     description: "การทดสอบใบอนุญาตผู้แนะนำการลงทุน",
+    subjects: {
+      level1: {
+        shortTitle: "P1",
+        title: "P1 - หลักสูตรผู้แนะนําการลงทุนตราสารทั่วไป",
+      },
+      level2: {
+        shortTitle: "P2",
+        title:
+          "P2 - หลักสูตรความรู้เกี่ยวกับตราสารที่มีความซับซ้อน : ตราสารหนี้ และ กองทุนรวม",
+      },
+      level3: {
+        shortTitle: "P3",
+        title:
+          "P3 - หลักสูตรความรู้เกี่ยวกับตราสารที่มีความซับซ้อน : สัญญาซื้อขายล่วงหน้า",
+      },
+    },
   },
   tgat: {
     filePaths: ["thai_exam/data/tgat/tgat_test.jsonl"],
