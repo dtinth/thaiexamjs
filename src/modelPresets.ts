@@ -117,6 +117,10 @@ export const modelPresets: Record<string, ModelPreset> = {
     createModel: (id) => openai(id),
     cost: [0.15, 0.6],
   },
+  "gpt-4.5-preview-2025-02-27": {
+    createModel: (id) => openai(id),
+    cost: [75, 150],
+  },
 
   // OpenAI O1 models
   "o1-mini-2024-09-12": {
