@@ -2,6 +2,20 @@
 
 An experiment and visualization project that evaluates AI language models on Thai standardized exams using the [ThaiExam dataset published by SCB 10X](https://www.scb.co.th/en/about-us/news/oct-2024/scb10x-standford.html) to [HELM](https://crfm.stanford.edu/helm/thaiexam/latest/).
 
+[**See the results here.**](https://dtinth.github.io/thaiexamjs/)
+
+## Sponsors
+
+This project is funded by our generous sponsors who contribute funds and API keys:
+
+- [Jetbodin Prakoonsuksapan](https://github.com/Jetbodin)
+- [Sakol Assawasagool](https://github.com/koobitor)
+- [Khachain Wangthammang](https://github.com/icez)
+- [Tossapol Pomsuwan](https://github.com/mastervii)
+- [Chrisada Sookdhis](https://github.com/chrisadas)
+
+## Key Differences from HELM
+
 This project differs from HELM's evaluation approach in several important ways:
 
 1. **Zero-shot testing**: Unlike HELM's leaderboard which uses short prompts that include multiple exam questions, this project evaluates models on a zero-shot basis - models see only one question at a time and must produce an answer.
@@ -10,25 +24,46 @@ This project differs from HELM's evaluation approach in several important ways:
 
 3. **Reasoning transparency**: The benchmark allows models to explain their reasoning process before responding, capturing their thought process. The dashboard lets you explore these explanations to better understand how different models approach the same questions.
 
-Note: At this stage, we are using O-NET tests only (to save costs), although the ThaiExam dataset contains other kinds of standardized tests as well. See the [dataset's model card](https://huggingface.co/datasets/scb10x/thai_exam) for more details.
+## Installation
 
-To install dependencies:
+This project uses [Bun](https://bun.sh/). To install dependencies:
 
 ```bash
 bun install
 ```
 
-Prepare `.env` file:
+## Configuration
+
+Prepare `.env` file with API keys based on the models you want to test. You only need to provide keys for the specific models you intend to run:
 
 ```sh
+# For Claude models
 ANTHROPIC_API_KEY=
+
+# For Azure AI models (e.g., Phi-4)
 AZURE_API_KEY=
 AZURE_API_ENDPOINT=
+
+# For DeepSeek models
+DEEPSEEK_API_KEY=
+
+# For Google Gemini models
 GOOGLE_GENERATIVE_AI_API_KEY=
+
+# For Groq-hosted models
+GROQ_API_KEY=
+
+# For OpenAI models (GPT-4o, O1)
 OPENAI_API_KEY=
+
+# For Typhoon models
+OPENTYPHOON_API_KEY=
+
+# For Together.ai-hosted models
+TOGETHER_API_KEY=
 ```
 
-To run:
+## Usage
 
 ```bash
 # Make the model take exams
