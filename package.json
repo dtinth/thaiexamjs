@@ -12,6 +12,7 @@
     "@thai/html": "npm:@jsr/thai__html",
     "@thai/sql-storage": "npm:@jsr/thai__sql-storage",
     "ai": "^4.1.46",
+    "csv": "^6.3.11",
     "lodash-es": "^4.17.21",
     "micromark": "^4.0.1",
     "uuidv7": "^1.0.2",
