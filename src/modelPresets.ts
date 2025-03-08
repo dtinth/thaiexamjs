@@ -3,6 +3,7 @@ import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { createAzure } from "@quail-ai/azure-ai-provider";
+import { createAzure as createAzureOpenai } from '@ai-sdk/azure';
 import type { LanguageModelV1 } from "ai";
 
 const azureAiFoundry = createAzure({
@@ -26,6 +27,10 @@ const together = createOpenAICompatible({
   name: "together",
   apiKey: process.env["TOGETHER_API_KEY"],
   baseURL: "https://api.together.xyz/v1",
+});
+
+const azureOpenai = createAzureOpenai({
+  apiVersion: '2024-12-01-preview',
 });
 
 export const modelPresets: Record<string, ModelPreset> = {
@@ -129,6 +134,14 @@ export const modelPresets: Record<string, ModelPreset> = {
   },
   "o1-preview-2024-09-12": {
     createModel: (id) => openai(id),
+    cost: [15, 60],
+  },
+  "o3-mini-2025-01-31": {
+    createModel: (id) => azureOpenai('o3-mini'),
+    cost: [1.1, 4.4],
+  },
+  "o1-2024-12-17": {
+    createModel: (id) => azureOpenai('o1'),
     cost: [15, 60],
   },
 
