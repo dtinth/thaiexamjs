@@ -40,7 +40,7 @@ async function importLogs() {
 
   for await (const line of rl) {
     lineNumber++;
-    if (!line.trim()) continue;
+    if (!line?.trim()) continue;
 
     try {
       const logEntry: LogEntry = JSON.parse(line);
