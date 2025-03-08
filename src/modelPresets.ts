@@ -113,6 +113,12 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [0, 0],
   },
 
+  // Google Gemma models
+  "gemma-2-27b-it": {
+    createModel: (id) => together(`google/${id}`),
+    cost: [0.8, 0.8],
+  },
+
   // OpenAI GPT-4o models
   "gpt-4o-2024-08-06": {
     createModel: (id) => openai(id),
