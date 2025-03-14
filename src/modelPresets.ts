@@ -1,9 +1,9 @@
 import { anthropic } from "@ai-sdk/anthropic";
+import { createAzure as createAzureOpenai } from "@ai-sdk/azure";
 import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { createAzure } from "@quail-ai/azure-ai-provider";
-import { createAzure as createAzureOpenai } from '@ai-sdk/azure';
 import type { LanguageModelV1 } from "ai";
 
 const azureAiFoundry = createAzure({
@@ -30,7 +30,7 @@ const together = createOpenAICompatible({
 });
 
 const azureOpenai = createAzureOpenai({
-  apiVersion: '2024-12-01-preview',
+  apiVersion: "2024-12-01-preview",
 });
 
 export const modelPresets: Record<string, ModelPreset> = {
@@ -118,6 +118,10 @@ export const modelPresets: Record<string, ModelPreset> = {
     createModel: (id) => together(`google/${id}`),
     cost: [0.8, 0.8],
   },
+  "gemma-3-27b-it": {
+    createModel: (id) => google(id),
+    cost: [0, 0],
+  },
 
   // OpenAI GPT-4o models
   "gpt-4o-2024-08-06": {
@@ -143,11 +147,11 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [15, 60],
   },
   "o3-mini-2025-01-31": {
-    createModel: (id) => azureOpenai('o3-mini'),
+    createModel: (id) => azureOpenai("o3-mini"),
     cost: [1.1, 4.4],
   },
   "o1-2024-12-17": {
-    createModel: (id) => azureOpenai('o1'),
+    createModel: (id) => azureOpenai("o1"),
     cost: [15, 60],
   },
 
@@ -155,6 +159,13 @@ export const modelPresets: Record<string, ModelPreset> = {
   "Phi-4": {
     createModel: (id) => azureAiFoundry(id),
     cost: [0, 0],
+  },
+
+  // Qwen models
+  "QwQ-32B": {
+    // createModel: (id) => opentyphoon(id),
+    createModel: (id) => together("Qwen/QwQ-32B"),
+    cost: [1.2, 1.2],
   },
 
   // SCB 10X's Typhoon models

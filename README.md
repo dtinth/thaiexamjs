@@ -11,6 +11,7 @@ This project is funded by our generous sponsors who contribute funds and API key
 - [Jetbodin Prakoonsuksapan](https://github.com/Jetbodin)
 - [Sakol Assawasagool](https://github.com/koobitor)
 - [Khachain Wangthammang](https://github.com/icez)
+- [Kasidis Satangmongkol](https://github.com/toyeiei)
 - [Tossapol Pomsuwan](https://github.com/mastervii)
 - [Chrisada Sookdhis](https://github.com/chrisadas)
 
