@@ -189,6 +189,7 @@ export class ExamPreset {
           .map((x) => JSON.parse(x));
         return questions.map((question, index) => ({
           id: `${this.id}:${file}:${index}`,
+          examPresetId: this.id,
           file,
           index,
           question,
@@ -224,6 +225,7 @@ export class ExamPreset {
 
 export interface QuestionEntry {
   id: string;
+  examPresetId: string;
   file: string;
   index: number;
   question: any;

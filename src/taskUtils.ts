@@ -7,7 +7,7 @@ import type { TaskStatus } from "./taskStatus";
 
 export interface Task {
   id: string;
-  presetId: string;
+  modelPresetId: string;
   questionEntry: QuestionEntry;
 }
 
@@ -31,15 +31,15 @@ export function enumerateAllTasks(): Task[] {
   const questionFilter = new Filter(process.env["QUESTION_FILTER"]);
   const modelFilter = new Filter(process.env["MODEL_FILTER"]);
   const tasks: Task[] = [];
-  for (const presetId of Object.keys(modelPresets)) {
-    if (!modelFilter.matches(presetId)) continue;
+  for (const modelPresetId of Object.keys(modelPresets)) {
+    if (!modelFilter.matches(modelPresetId)) continue;
     for (const examPresetId of examPresets.availableExamPresetIds) {
       const examPreset = examPresets.get(examPresetId);
       for (const questionEntry of examPreset.questionEntries) {
         if (!questionFilter.matches(questionEntry.id)) continue;
         tasks.push({
-          id: `${presetId}:${questionEntry.id}`,
-          presetId,
+          id: `${modelPresetId}:${questionEntry.id}`,
+          modelPresetId: modelPresetId,
           questionEntry,
         });
       }

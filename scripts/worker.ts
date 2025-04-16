@@ -42,7 +42,7 @@ async function runWorker() {
     console.log(`Acquired task: ${task.id}`);
     try {
       const result = await evaluateQuestion(
-        task.presetId,
+        task.modelPresetId,
         task.questionEntry.question,
         2
       );

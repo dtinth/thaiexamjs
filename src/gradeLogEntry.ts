@@ -1,6 +1,8 @@
 import type { LogEntry } from "./LogEntry";
 
-export function gradeLogEntry(logEntry: LogEntry): GradingResult {
+export function gradeLogEntry(
+  logEntry: Pick<LogEntry, "question" | "result">
+): GradingResult {
   const expected = logEntry.question.answer;
   const found = Array.from(
     logEntry.result.text.matchAll(/"correct_answer_key"\s*:\s*"(\w)"/gi)
