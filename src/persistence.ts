@@ -4,7 +4,7 @@ import Database from "bun:sqlite";
 import { mkdirSync } from "node:fs";
 import { createStorage } from "unstorage";
 import localStorageDriver from "unstorage/drivers/localstorage";
-import type { Task } from "./taskSchema";
+import type { TaskStatus } from "./taskStatus";
 
 // Ensure the .data directory exists
 mkdirSync(".data", { recursive: true });
@@ -17,6 +17,6 @@ db.exec("PRAGMA busy_timeout = 3000");
 const sqlStorage = createSqlStorage(db);
 
 // Wrap the SQL storage with the localStorageDriver for unstorage
-export const taskStorage = createStorage<Task>({
+export const taskStorage = createStorage<TaskStatus>({
   driver: localStorageDriver({ storage: sqlStorage }),
 });
