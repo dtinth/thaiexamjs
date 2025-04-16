@@ -38,24 +38,16 @@ async function runWorker() {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       continue;
     }
-    const { task, heartbeat, release } = acquired;
+    const { task, release } = acquired;
     console.log(`Acquired task: ${task.id}`);
-    let heartbeatActive = true;
-    const heartbeatLoop = setInterval(() => {
-      if (heartbeatActive) heartbeat();
-    }, 10_000);
     try {
       const result = await evaluateQuestion(
         task.presetId,
         task.questionEntry.question
       );
-      heartbeatActive = false;
-      clearInterval(heartbeatLoop);
       await release(result);
       console.log(`Task completed: ${task.id}`);
     } catch (err) {
-      heartbeatActive = false;
-      clearInterval(heartbeatLoop);
       await release(
         undefined,
         err instanceof Error ? err.message : String(err)
@@ -65,4 +57,14 @@ async function runWorker() {
   }
 }
 
-runWorker();
+const WORKER_COUNT = Number(process.env["WORKER_COUNT"] || 1);
+
+async function main() {
+  for (let i = 0; i < WORKER_COUNT; i++) {
+    setTimeout(() => {
+      runWorker();
+    }, i * 1000);
+  }
+}
+
+main();

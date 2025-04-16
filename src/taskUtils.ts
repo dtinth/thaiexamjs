@@ -98,7 +98,7 @@ export async function acquireTaskForWorkerWithLease(leaseSeconds = 15) {
           lastError: error,
         });
       };
-      return { task, status, heartbeat, release };
+      return { task, status, release };
     }
   }
   return null;
