@@ -1,0 +1,68 @@
+import { evaluateQuestion } from "../src/evaluateQuestion";
+import { taskStorage } from "../src/persistence";
+import type { TaskStatus } from "../src/taskStatus";
+import {
+  acquireTaskForWorkerWithLease,
+  enumerateAllTasks,
+} from "../src/taskUtils";
+
+function isTaskPending(status: TaskStatus | null): boolean {
+  if (!status) return true;
+  if (status.state === "pending") return true;
+  if (
+    status.state === "in_progress" &&
+    status.leaseExpiresAt &&
+    Date.parse(status.leaseExpiresAt) < Date.now()
+  )
+    return true;
+  return false;
+}
+
+async function allTasksFinished(): Promise<boolean> {
+  const tasks = enumerateAllTasks();
+  for (const task of tasks) {
+    const status = await taskStorage.getItem(task.id);
+    if (isTaskPending(status)) return false;
+  }
+  return true;
+}
+
+async function runWorker() {
+  while (true) {
+    const acquired = await acquireTaskForWorkerWithLease();
+    if (!acquired) {
+      if (await allTasksFinished()) {
+        console.log("All tasks are completed or failed. Exiting.");
+        break;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      continue;
+    }
+    const { task, heartbeat, release } = acquired;
+    console.log(`Acquired task: ${task.id}`);
+    let heartbeatActive = true;
+    const heartbeatLoop = setInterval(() => {
+      if (heartbeatActive) heartbeat();
+    }, 10_000);
+    try {
+      const result = await evaluateQuestion(
+        task.presetId,
+        task.questionEntry.question
+      );
+      heartbeatActive = false;
+      clearInterval(heartbeatLoop);
+      await release(result);
+      console.log(`Task completed: ${task.id}`);
+    } catch (err) {
+      heartbeatActive = false;
+      clearInterval(heartbeatLoop);
+      await release(
+        undefined,
+        err instanceof Error ? err.message : String(err)
+      );
+      console.error(`Task failed: ${task.id}`, err);
+    }
+  }
+}
+
+runWorker();
