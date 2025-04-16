@@ -3,14 +3,17 @@ import { enumerateAllTasks } from "../src/taskUtils";
 
 async function main() {
   const tasks = enumerateAllTasks();
-  let nextNum = 1;
+  let completed = 0;
+  let failed = 0;
   for (const task of tasks) {
-    const num = nextNum++;
     const status = await taskStorage.getItem(task.id);
-    console.log(
-      `${num}. ${task.id} | ${status ? status.state : "(not started)"}`
-    );
+    let state = status ? status.state : "pending";
+    if (state === "completed") completed++;
+    else if (state === "failed") failed++;
   }
+  const total = tasks.length;
+  const evaluated = completed + failed;
+  console.log(`Evaluated ${evaluated}/${total}, ${failed} failed`);
 }
 
 main();

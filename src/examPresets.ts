@@ -35,6 +35,44 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
       },
     },
   },
+  onet_m6: {
+    filePaths: [
+      "openthaigpt_eval/onet_m6_thai.jsonl",
+      "openthaigpt_eval/onet_m6_social.jsonl",
+      "openthaigpt_eval/onet_m6_math.jsonl",
+      "openthaigpt_eval/onet_m6_science.jsonl",
+    ],
+    shortTitle: "Thai O-NET Tests",
+    shortEnglishDescription: "O-NET standardized tests",
+    title: "O-NET: Ordinary National Educational Test (ชั้นมัธยมศึกษาปีที่ 6)",
+    description: "การทดสอบทางการศึกษาระดับชาติขั้นพื้นฐาน",
+    subjects: {
+      thai: {
+        shortTitle: "Thai",
+        title: "ภาษาไทย",
+      },
+      social: {
+        shortTitle: "Social",
+        title: "สังคมศึกษา ศาสนาและวัฒนธรรม",
+      },
+      science: {
+        shortTitle: "Science",
+        title: "วิทยาศาสตร์",
+      },
+      math: {
+        shortTitle: "Math",
+        title: "คณิตศาสตร์",
+      },
+    },
+    humanScore: {
+      bySubject: {
+        thai: (46.4 * 63) / 100,
+        social: (36.87 * 63) / 100,
+        science: (28.65 * 20) / 100,
+        math: (21.28 * 16) / 100,
+      },
+    },
+  },
   a_level: {
     filePaths: ["thai_exam/data/a_level/a_level_test.jsonl"],
     shortTitle: "Thai A-Level Tests",

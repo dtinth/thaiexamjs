@@ -43,7 +43,8 @@ async function runWorker() {
     try {
       const result = await evaluateQuestion(
         task.presetId,
-        task.questionEntry.question
+        task.questionEntry.question,
+        2
       );
       await release(result);
       console.log(`Task completed: ${task.id}`);

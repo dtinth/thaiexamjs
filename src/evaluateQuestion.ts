@@ -6,11 +6,10 @@ import {
 } from "ai";
 import { modelPresets } from "./modelPresets";
 
-const promptVersion: number = 1;
-
 export async function evaluateQuestion(
   modelPresetId: string,
-  question: any
+  question: any,
+  promptVersion: 1 | 2 = 1
 ): Promise<EvaluationResult> {
   const preset = modelPresets[modelPresetId];
   const model = preset.createModel(modelPresetId);
