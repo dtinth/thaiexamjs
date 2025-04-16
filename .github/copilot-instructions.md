@@ -5,7 +5,7 @@
 - When working on an issue, write the implementation plan on the issue and keep it up-to-date.
 - When updating the implementation plan, do the following:
   1. Update the issue description to reflect the latest plan. Make sure to read the latest issue description to ensure you have the latest information. Do not include outdated information in the plan.
-  2. Write a comment briefly summarizing the plan update. Say something like "From GitHub Copilot: Previously, [old assumption]. However, [realization]. Therefore [concise summary of updates to the plan]."
+  2. Write a comment briefly summarizing the plan update. Say something like "From GitHub Copilot: Previously, [old assumption]. However, [realization]. Therefore [concise summary of updates to the plan]. [commit-sha if applicable]".
 
 ## Code Style and Conventions
 
