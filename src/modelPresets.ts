@@ -147,11 +147,11 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [15, 60],
   },
   "o3-mini-2025-01-31": {
-    createModel: (id) => azureOpenai("o3-mini"),
+    createModel: (_id) => azureOpenai("o3-mini"),
     cost: [1.1, 4.4],
   },
   "o1-2024-12-17": {
-    createModel: (id) => azureOpenai("o1"),
+    createModel: (_id) => azureOpenai("o1"),
     cost: [15, 60],
   },
 
@@ -164,7 +164,7 @@ export const modelPresets: Record<string, ModelPreset> = {
   // Qwen models
   "QwQ-32B": {
     // createModel: (id) => opentyphoon(id),
-    createModel: (id) => together("Qwen/QwQ-32B"),
+    createModel: (_id) => together("Qwen/QwQ-32B"),
     cost: [1.2, 1.2],
   },
 
@@ -175,7 +175,7 @@ export const modelPresets: Record<string, ModelPreset> = {
   },
   "typhoon-v2-70b-instruct": {
     // createModel: (id) => opentyphoon(id),
-    createModel: (id) => together("scb10x/scb10x-llama3-1-typhoon2-60256"),
+    createModel: (_id) => together("scb10x/scb10x-llama3-1-typhoon2-60256"),
     cost: [0.9, 0.9], // Based on https://www.together.ai/pricing
   },
   "typhoon-v2-8b-instruct": {
