@@ -150,6 +150,7 @@ export class ExamPreset {
           .filter((x) => x.trim())
           .map((x) => JSON.parse(x));
         return questions.map((question, index) => ({
+          id: `${this.id}:${file}:${index}`,
           file,
           index,
           question,
@@ -184,6 +185,7 @@ export class ExamPreset {
 }
 
 export interface QuestionEntry {
+  id: string;
   file: string;
   index: number;
   question: any;
