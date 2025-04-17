@@ -262,6 +262,7 @@ export const modelPresets: Record<string, ModelPreset> = {
     // createModel: (id) => opentyphoon(id),
     createModel: (_id) => together("Qwen/QwQ-32B"),
     cost: [1.2, 1.2],
+    icon: "ri:alibaba-cloud-fill",
   },
 
   // SCB 10X's Typhoon models
@@ -288,10 +289,12 @@ export const modelPresets: Record<string, ModelPreset> = {
   "grok-3-beta": {
     createModel: (id) => xai(id),
     cost: [3, 15],
+    icon: "ri:twitter-x-line",
   },
   "grok-3-mini-beta": {
     createModel: (id) => xai(id),
     cost: [0.3, 0.5],
+    icon: "ri:twitter-x-line",
   },
 
   // Meta Llama
