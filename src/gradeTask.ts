@@ -1,4 +1,4 @@
-import { gradeLogEntry, type GradingResult } from "./gradeLogEntry";
+import type { EvaluationResult } from "./evaluateQuestion";
 import { modelPresets } from "./modelPresets";
 import { taskStorage } from "./persistence";
 import type { TaskStatus } from "./taskStatus";
@@ -8,10 +8,7 @@ export async function gradeTask(task: Task): Promise<GradedTask | undefined> {
   const status = await taskStorage.getItem(task.id);
   if (!status) return;
   if (!status.result) return;
-  const gradingResult = gradeLogEntry({
-    question: task.questionEntry.question,
-    result: status.result,
-  });
+  const gradingResult = grade(task.questionEntry.question, status.result);
   const score = gradingResult.expected === gradingResult.actual ? 1 : 0;
   const usage = status.result?.usage;
   const inputTokens = usage?.promptTokens || 0;
@@ -57,3 +54,20 @@ export interface GradedTask {
   score: number;
   costThb: number;
 }
+
+function grade(question: any, result: EvaluationResult): GradingResult {
+  const expected = question.answer;
+  const found = Array.from(
+    result.text.matchAll(/"correct_answer_key"\s*:\s*"(\w)"/gi)
+  );
+  if (found.length === 1) {
+    const actual = found[0][1].toLowerCase();
+    return { actual, expected };
+  }
+  return { expected };
+}
+
+export type GradingResult = {
+  expected: string;
+  actual?: string;
+};
