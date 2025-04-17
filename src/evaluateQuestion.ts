@@ -73,6 +73,8 @@ export async function evaluateQuestion(
       ? { maxTokens: 7168 }
       : modelPresetId.includes("QwQ")
       ? { maxTokens: 7168 }
+      : modelPresetId.includes("deepseek-r1")
+      ? { maxTokens: 30000 }
       : {}),
   };
 

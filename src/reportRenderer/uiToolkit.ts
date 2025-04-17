@@ -124,8 +124,7 @@ export function uiToolkit() {
           html`<div class="accordion accordion-flush" id="${outerId}">
             ${content}
           </div>`,
-        item: (header: Html, content: Html) => {
-          const id = genId();
+        item: (header: Html, content: Html, id = genId()) => {
           return html`<div class="accordion-item">
             <h2 class="accordion-header" id="${id}">
               <button

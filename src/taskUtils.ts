@@ -5,6 +5,26 @@ import { modelPresets } from "./modelPresets";
 import { taskStorage } from "./persistence";
 import type { TaskStatus } from "./taskStatus";
 
+const enabledModelPresetIds = new Set([
+  "gpt-4.1-nano-2025-04-14",
+  "gpt-4o-mini-2024-07-18",
+  "gpt-4.1-mini-2025-04-14",
+  "gpt-4o-2024-08-06",
+  "gemini-1.5-pro-002",
+  "o3-mini-2025-01-31[medium]",
+  "gemini-2.0-flash-001",
+  "gemini-2.0-flash-thinking-exp-01-21",
+  "o3-mini-2025-01-31[high]",
+  "gpt-4.5-preview-2025-02-27",
+  "o3-mini-2025-01-31[low]",
+  "gpt-4.1-2025-04-14",
+  "o4-mini-2025-04-16[low]",
+  "o4-mini-2025-04-16[medium]",
+  "o4-mini-2025-04-16[high]",
+  "o1-2024-12-17",
+  "gemini-2.5-pro-preview-03-25",
+]);
+
 export interface Task {
   id: string;
   modelPresetId: string;
@@ -59,6 +79,7 @@ export async function acquireTaskForWorkerWithLease(leaseSeconds = 15) {
     const status = await taskStorage.getItem(task.id);
     const isAvailable =
       !status ||
+      status.state === "failed" ||
       status.state === "pending" ||
       (status.state === "in_progress" &&
         status.leaseExpiresAt &&

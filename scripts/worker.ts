@@ -1,4 +1,5 @@
 import { evaluateQuestion } from "../src/evaluateQuestion";
+import { gradeTask, showGradedTask } from "../src/gradeTask";
 import { taskStorage } from "../src/persistence";
 import type { TaskStatus } from "../src/taskStatus";
 import {
@@ -47,6 +48,8 @@ async function runWorker() {
         2
       );
       await release(result);
+      const gradedTask = await gradeTask(task);
+      if (gradedTask) showGradedTask(gradedTask);
       console.log(`Task completed: ${task.id}`);
     } catch (err) {
       await release(
