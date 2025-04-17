@@ -131,6 +131,11 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [0.1, 0.4],
     icon: "ri:gemini-fill",
   },
+  "gemini-2.0-flash-lite-001": {
+    createModel: (id) => google(id),
+    cost: [0.1, 0.4],
+    icon: "ri:gemini-fill",
+  },
   "gemini-2.0-flash-thinking-exp-01-21": {
     createModel: (id) => google(id),
     cost: [0, 0],
@@ -253,7 +258,7 @@ export const modelPresets: Record<string, ModelPreset> = {
   },
 
   // Qwen models
-  "QwQ-32B": {
+  "qwq-32b": {
     // createModel: (id) => opentyphoon(id),
     createModel: (_id) => together("Qwen/QwQ-32B"),
     cost: [1.2, 1.2],

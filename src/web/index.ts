@@ -16,7 +16,11 @@ import {
   getStatsByModel,
   type StatsByModelEntry,
 } from "../reportingV2";
-import { htmlPage, uiToolkit } from "../reportRenderer/uiToolkit";
+import {
+  htmlPage,
+  uiToolkit,
+  type UiToolkit,
+} from "../reportRenderer/uiToolkit";
 
 interface WebsiteData {
   gradedTasks: GradedTask[];
@@ -61,9 +65,15 @@ export class Website {
 }
 
 class IndexPage implements WebPage {
-  constructor(private data: WebsiteData) {}
+  private statsByModel: StatsByModelEntry[];
+  private ui = uiToolkit();
+
+  constructor(private data: WebsiteData) {
+    this.statsByModel = getStatsByModel(this.data.gradedTasks);
+  }
 
   async render() {
+    const overallTable = new OverallTable(this.statsByModel, this.ui);
     return htmlPage(
       "LLM Performance on Thai Exams",
       html`
@@ -82,26 +92,36 @@ class IndexPage implements WebPage {
           </a>
         </p>
 
-        <h2 class="mt-4">Available Exam Reports</h2>
-        <div class="list-group mb-4">
-          ${examsPresetIdsToPublish.map((examPresetId) => {
-            const examPreset = examPresets.get(examPresetId);
-            return html`
-              <a
-                href="${examPresetId}.html"
-                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-              >
-                <div>
-                  <h5 class="mb-1">${examPreset.shortTitle}</h5>
-                  <p class="mb-1">${examPreset.description}</p>
-                </div>
-                <span class="badge bg-primary rounded-pill">
-                  <iconify-icon icon="mdi:arrow-right"></iconify-icon>
-                </span>
-              </a>
-            `;
-          })}
-        </div>
+        ${renderTwoColumnLayout({
+          left: html`
+            <h2 class="mt-4 h4">Available Exam Reports</h2>
+            <div class="list-group mb-4">
+              ${examsPresetIdsToPublish.map((examPresetId) => {
+                const examPreset = examPresets.get(examPresetId);
+                return html`
+                  <a
+                    href="${examPresetId}.html"
+                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h5 class="mb-1">${examPreset.shortTitle}</h5>
+                      <p class="mb-0">${examPreset.description}</p>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">
+                      <iconify-icon icon="mdi:arrow-right"></iconify-icon>
+                    </span>
+                  </a>
+                `;
+              })}
+            </div>
+          `,
+          right: html`
+            <h2 class="mt-4 h4">Overall Ranking</h2>
+            <div class="card">
+              <div class="card-body p-0">${overallTable.render()}</div>
+            </div>
+          `,
+        })}
       `
     );
   }
@@ -150,54 +170,11 @@ class ExamPage implements WebPage {
   }
 
   renderOverallTable(): Html {
-    const { ui } = this;
-    function thb(baht: number) {
-      return `฿${baht.toFixed(2)}`;
-    }
+    const { ui, statsByModel } = this;
+    const overallTable = new OverallTable(statsByModel, ui);
     return html`
       <h2>Overall ranking</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Model</th>
-            <th class="text-end" scope="col">Cost</th>
-            <!-- TODO: By subject -->
-            <th class="text-end" scope="col">Overall</th>
-            <th class="text-end" scope="col">Acc</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${this.statsByModel.map((modelStat) => {
-            const tooltipContent =
-              `input: ${modelStat.inputTokens.toLocaleString()} tokens; ` +
-              `output: ${modelStat.outputTokens.toLocaleString()} tokens`;
-            const modelPreset = modelPresets[modelStat.modelPresetId]!;
-            return html`<tr>
-              <td>
-                ${modelPreset.icon
-                  ? html`<iconify-icon
-                      inline
-                      icon="${modelPreset.icon}"
-                    ></iconify-icon> `
-                  : ""}
-                ${modelPreset.displayName || modelStat.modelPresetId}
-              </td>
-              <td class="text-end">
-                ${modelStat.costThb > 0
-                  ? ui.tooltip(thb(modelStat.costThb), tooltipContent)
-                  : "—"}
-              </td>
-              <!-- TODO: By subject -->
-              <td class="text-end">
-                ${ui.ofTotal(modelStat.score, modelStat.total)}
-              </td>
-              <td class="text-end">
-                ${(modelStat.accuracy * 100).toFixed(2)}%
-              </td>
-            </tr>`;
-          })}
-        </tbody>
-      </table>
+      ${overallTable.render()}
     `;
   }
 
@@ -312,6 +289,63 @@ class ExamPage implements WebPage {
   }
 }
 
+class OverallTable {
+  constructor(
+    private statsByModel: StatsByModelEntry[],
+    private ui: UiToolkit
+  ) {}
+  render() {
+    const { ui, statsByModel } = this;
+    function thb(baht: number) {
+      return `฿${baht.toFixed(2)}`;
+    }
+    return html`
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Model</th>
+            <th class="text-end" scope="col">Cost</th>
+            <!-- TODO: By subject -->
+            <th class="text-end" scope="col">Overall</th>
+            <th class="text-end" scope="col">Acc</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${statsByModel.map((modelStat) => {
+            const tooltipContent =
+              `input: ${modelStat.inputTokens.toLocaleString()} tokens; ` +
+              `output: ${modelStat.outputTokens.toLocaleString()} tokens`;
+            const modelPreset = modelPresets[modelStat.modelPresetId]!;
+            return html`<tr>
+              <td>
+                ${modelPreset.icon
+                  ? html`<iconify-icon
+                      inline
+                      icon="${modelPreset.icon}"
+                    ></iconify-icon> `
+                  : ""}
+                ${modelPreset.displayName || modelStat.modelPresetId}
+              </td>
+              <td class="text-end">
+                ${modelStat.costThb > 0
+                  ? ui.tooltip(thb(modelStat.costThb), tooltipContent)
+                  : "—"}
+              </td>
+              <!-- TODO: By subject -->
+              <td class="text-end">
+                ${ui.ofTotal(modelStat.score, modelStat.total)}
+              </td>
+              <td class="text-end">
+                ${(modelStat.accuracy * 100).toFixed(2)}%
+              </td>
+            </tr>`;
+          })}
+        </tbody>
+      </table>
+    `;
+  }
+}
+
 class ExamQuestionPage implements WebPage {
   private examPreset: ExamPreset;
   private ui = uiToolkit();
@@ -363,12 +397,9 @@ class ExamQuestionPage implements WebPage {
           </a>
         </p>
 
-        <div
-          class="d-flex flex-column flex-lg-row gap-3"
-          data-question-id="${this.questionEntry.id}"
-        >
-          <div class="flex-grow-1" style="max-width: 100%; flex-basis: 0;">
-            <div class="card">
+        <div data-question-id="${this.questionEntry.id}">
+          ${renderTwoColumnLayout({
+            left: html`<div class="card">
               <div class="card-header">
                 <h5 class="card-title mb-0">Question</h5>
               </div>
@@ -388,17 +419,14 @@ class ExamQuestionPage implements WebPage {
                 >
                 is the correct answer according to the dataset.
               </div>
-            </div>
-          </div>
-
-          <div class="flex-grow-1" style="max-width: 100%; flex-basis: 0;">
-            <div class="card flex-grow-1">
+            </div>`,
+            right: html`<div class="card flex-grow-1">
               <div class="card-header">
                 <h5 class="card-title mb-0">Answers by AI</h5>
               </div>
               <div class="card-body p-0">${this.renderAiAnswers()}</div>
-            </div>
-          </div>
+            </div>`,
+          })}
         </div>
         <script>
           // Check if the hash refers to an accordion item
@@ -456,6 +484,23 @@ class ExamQuestionPage implements WebPage {
         : html`<div>The model was unable to produce an answer.</div>`,
     };
   }
+}
+
+function renderTwoColumnLayout({
+  left,
+  right,
+}: {
+  left: Html;
+  right: Html;
+}): Html {
+  return html`<div class="d-flex flex-column flex-lg-row gap-3">
+    <div class="flex-grow-1" style="max-width: 100%; flex-basis: 0;">
+      ${left}
+    </div>
+    <div class="flex-grow-1" style="max-width: 100%; flex-basis: 0;">
+      ${right}
+    </div>
+  </div>`;
 }
 
 function renderAnswer(
