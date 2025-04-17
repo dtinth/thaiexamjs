@@ -122,6 +122,7 @@ class IndexPage implements WebPage {
             </div>
           `,
         })}
+        ${renderQuickLink()}
       `
     );
   }
@@ -165,6 +166,7 @@ class ExamPage implements WebPage {
           </a>
         </p>
         ${this.renderOverallTable()} ${this.renderDetailedReport()}
+        ${renderQuickLink()}
       `
     );
   }
@@ -565,3 +567,12 @@ function getExamQuestionPath(questionEntry: QuestionEntry) {
 
   return `${examPresetId}/${pageSlug}.html`;
 }
+
+const renderQuickLink = () => html`
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quicklink/2.3.0/quicklink.umd.js"></script>
+  <script>
+    window.addEventListener("load", () => {
+      quicklink.listen();
+    });
+  </script>
+`;
