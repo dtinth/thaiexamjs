@@ -4,6 +4,7 @@ import {
   examsToPublish,
   renderExamReportPage,
 } from "../src/reportRenderer/renderExamReportPage";
+import { renderMigratedAlert } from "../src/reportRenderer/renderMigratedAlert";
 import { htmlPage } from "../src/reportRenderer/uiToolkit";
 
 // Generate exam pages
@@ -21,6 +22,7 @@ function renderIndexPage() {
   return htmlPage(
     "LLM Performance on Thai Exams",
     html`
+      ${renderMigratedAlert()}
       <h1>LLM Performance on Thai Exams</h1>
       <p class="lead">
         This dashboard showcases how different AI models perform on various Thai

@@ -8,6 +8,7 @@ import type {
   ExamReport,
   SubjectEntry,
 } from "../reporting";
+import { renderMigratedAlert } from "./renderMigratedAlert";
 import { htmlPage, uiToolkit, type UiToolkit } from "./uiToolkit";
 
 export const examsToPublish = ["onet", "tpat1", "ic"];
@@ -18,6 +19,7 @@ export function renderExamReportPage(examReport: ExamReport) {
   return htmlPage(
     `LLM Performance on ${examReport.shortTitle}`,
     html`
+      ${renderMigratedAlert()}
       <h1>LLM Performance on ${examReport.shortTitle}</h1>
       <p class="lead">
         This dashboard showcases how different AI models perform on
