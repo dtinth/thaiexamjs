@@ -128,18 +128,6 @@ export const modelPresets: Record<string, ModelPreset> = {
     createModel: (id) => openai(id),
     cost: [2.5, 10],
   },
-  "gpt-4.1-2025-04-14": {
-    createModel: (id) => openai(id),
-    cost: [2, 8],
-  },
-  "gpt-4.1-mini-2025-04-14": {
-    createModel: (id) => openai(id),
-    cost: [0.4, 1.6],
-  },
-  "gpt-4.1-nano-2025-04-14": {
-    createModel: (id) => openai(id),
-    cost: [0.1, 0.4],
-  },
   "gpt-4o-mini-2024-07-18": {
     createModel: (id) => openai(id),
     cost: [0.15, 0.6],
