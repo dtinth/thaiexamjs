@@ -44,8 +44,7 @@ async function runWorker() {
     try {
       const result = await evaluateQuestion(
         task.modelPresetId,
-        task.questionEntry.question,
-        2
+        task.questionEntry.question
       );
       await release(result);
       const gradedTask = await gradeTask(task);
