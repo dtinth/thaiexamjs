@@ -44,9 +44,6 @@ async function importTaskStatuses() {
 
     try {
       const { _id, ...status }: TaskStatus & { _id: string } = JSON.parse(line);
-      const notice = (message: string) => {
-        console.warn(`Line ${lineNumber}: ${message}`);
-      };
       taskStorage.setItem(_id, status);
       imported++;
       console.log(`Line ${lineNumber}: Imported task status for ${_id}`);
