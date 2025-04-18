@@ -66,7 +66,6 @@ export function getStatsByModel(
     {
       $group: {
         _id: "$task.modelPresetId",
-        accuracy: { $avg: "$score" },
         score: { $sum: "$score" },
         total: { $sum: 1 },
         inputTokens: { $sum: "$status.result.usage.promptTokens" },
@@ -74,10 +73,8 @@ export function getStatsByModel(
         costThb: { $sum: "$costThb" },
       },
     },
-    { $sort: { accuracy: -1 } },
   ]) as {
     _id: string;
-    accuracy: number;
     score: number;
     total: number;
     inputTokens: number;
@@ -85,13 +82,17 @@ export function getStatsByModel(
     costThb: number;
   }[];
 
-  return scores.map((item) => ({
-    modelPresetId: item._id,
-    accuracy: item.accuracy,
-    score: item.score,
-    total: item.total,
-    inputTokens: item.inputTokens,
-    outputTokens: item.outputTokens,
-    costThb: item.costThb,
-  }));
+  const maxTotal = Math.max(0, ...scores.map((item) => item.total));
+
+  return scores
+    .map((item) => ({
+      modelPresetId: item._id,
+      accuracy: item.score / maxTotal,
+      score: item.score,
+      total: item.total,
+      inputTokens: item.inputTokens,
+      outputTokens: item.outputTokens,
+      costThb: item.costThb,
+    }))
+    .sort((a, b) => b.accuracy - a.accuracy);
 }
