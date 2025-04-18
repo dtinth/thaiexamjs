@@ -13,6 +13,7 @@ This project is funded by our generous sponsors who contribute funds and API key
 - [Khachain Wangthammang](https://github.com/icez)
 - [Kasidis Satangmongkol](https://github.com/toyeiei)
 - [Tossapol Pomsuwan](https://github.com/mastervii)
+- [R'ket](https://r-ket.app/) via [Veha Suwatphisankij](https://github.com/vehas) and [Natechawin Suthison](https://github.com/nsuthison)
 - [Chrisada Sookdhis](https://github.com/chrisadas)
 
 ## Key Differences from HELM
@@ -61,6 +62,7 @@ OPENROUTER_API_KEY=
 ```
 
 You can also set these optional environment variables:
+
 - `QUESTION_FILTER`: Filter questions by pattern
 - `MODEL_FILTER`: Filter models by pattern
 - `WORKER_COUNT`: Number of parallel workers (default: 1)
