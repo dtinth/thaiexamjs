@@ -78,6 +78,11 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [0, 0],
     icon: "ri:gemini-fill",
   },
+  "gemini-2.5-flash-preview-04-17": {
+    createModel: (id) => google(id),
+    cost: [0.15, 3.5],
+    icon: "ri:gemini-fill",
+  },
   "gemini-2.5-pro-preview-03-25": {
     createModel: (id) => google(id),
     cost: [1.25, 10],
