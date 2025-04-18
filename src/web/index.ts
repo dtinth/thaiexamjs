@@ -4,6 +4,7 @@ import { micromark } from "micromark";
 import {
   ExamPreset,
   examPresets,
+  type DatasetProviderInfo,
   type QuestionEntry,
   type SubjectDefinition,
 } from "../examPresets";
@@ -75,12 +76,12 @@ class IndexPage implements WebPage {
   async render() {
     const overallTable = new OverallTable(this.statsByModel, this.ui);
     return htmlPage(
-      "LLM Performance on Thai Exams",
+      "AI vs Thai Exams",
       html`
-        <h1>LLM Performance on Thai Exams</h1>
+        <h1>AI vs Thai Exams</h1>
         <p class="lead">
-          This dashboard showcases how different AI models perform on various
-          Thai standardized tests.
+          This dashboard showcases how different large language models (LLMs)
+          perform on various Thai standardized tests.
         </p>
         <p>
           <a
@@ -153,9 +154,10 @@ class ExamPage implements WebPage {
           This dashboard showcases how different AI models perform on
           ${examPreset.shortEnglishDescription}.
         </p>
+        ${renderDatasetAttribution(examPreset.datasetProviderInfo)}
         <p>
           <a href="./" class="btn btn-outline-light me-2">
-            <iconify-icon icon="mdi:arrow-left"></iconify-icon> Back to Index
+            <iconify-icon icon="mdi:arrow-left"></iconify-icon> Other Exams
           </a>
           <a
             href="https://github.com/dtinth/thaiexamjs"
@@ -437,26 +439,30 @@ class ExamQuestionPage implements WebPage {
         <div data-question-id="${this.questionEntry.id}">
           ${renderTwoColumnLayout({
             left: html`<div class="card">
-              <div class="card-header">
-                <h5 class="card-title mb-0">Question</h5>
+                <div class="card-header">
+                  <h5 class="card-title mb-0">Question</h5>
+                </div>
+                <div class="card-body">
+                  ${{
+                    __html: micromark(question.question),
+                  }}
+                  <ol type="A">
+                    ${this.letters.map((x) => html`<li>${question[x]}</li>`)}
+                  </ol>
+                </div>
+                <div class="card-footer">
+                  <span
+                    class="badge bg-success d-inline-block align-middle"
+                    style="transform: translateY(-2px)"
+                    >${question.answer.toUpperCase()}</span
+                  >
+                  is the correct answer according to the dataset.
+                </div>
               </div>
-              <div class="card-body">
-                ${{
-                  __html: micromark(question.question),
-                }}
-                <ol type="A">
-                  ${this.letters.map((x) => html`<li>${question[x]}</li>`)}
-                </ol>
-              </div>
-              <div class="card-footer">
-                <span
-                  class="badge bg-success d-inline-block align-middle"
-                  style="transform: translateY(-2px)"
-                  >${question.answer.toUpperCase()}</span
-                >
-                is the correct answer according to the dataset.
-              </div>
-            </div>`,
+
+              <div class="px-3 pt-3">
+                ${renderDatasetAttribution(this.examPreset.datasetProviderInfo)}
+              </div> `,
             right: html`<div class="card flex-grow-1">
               <div class="card-header">
                 <h5 class="card-title mb-0">Answers by AI</h5>
@@ -611,3 +617,12 @@ const renderQuickLink = () => html`
     });
   </script>
 `;
+
+const renderDatasetAttribution = (datasetProviderInfo: DatasetProviderInfo) => {
+  return html`
+    <p>
+      Using dataset from
+      <a href="${datasetProviderInfo.url}">${datasetProviderInfo.name}</a>.
+    </p>
+  `;
+};
