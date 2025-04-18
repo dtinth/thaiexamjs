@@ -59,6 +59,7 @@ export async function acquireTaskForWorkerWithLease(leaseSeconds = 15) {
     const status = await taskStorage.getItem(task.id);
     const isAvailable =
       !status ||
+      status.state === "failed" ||
       status.state === "pending" ||
       (status.state === "in_progress" &&
         status.leaseExpiresAt &&

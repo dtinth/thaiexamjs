@@ -2,39 +2,6 @@ import { getOrCreate } from "@thai/get-or-create";
 import { readFileSync } from "node:fs";
 
 const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
-  onet: {
-    filePaths: ["thai_exam/data/onet/onet_test.jsonl"],
-    shortTitle: "Thai O-NET Tests",
-    shortEnglishDescription: "O-NET standardized tests",
-    title: "O-NET: Ordinary National Educational Test (ชั้นมัธยมศึกษาปีที่ 6)",
-    description: "การทดสอบทางการศึกษาระดับชาติขั้นพื้นฐาน",
-    subjects: {
-      thai: {
-        shortTitle: "Thai",
-        title: "ภาษาไทย",
-      },
-      social: {
-        shortTitle: "Social",
-        title: "สังคมศึกษา ศาสนาและวัฒนธรรม",
-      },
-      science: {
-        shortTitle: "Science",
-        title: "วิทยาศาสตร์",
-      },
-      math: {
-        shortTitle: "Math",
-        title: "คณิตศาสตร์",
-      },
-    },
-    humanScore: {
-      bySubject: {
-        thai: (46.4 * 63) / 100,
-        social: (36.87 * 63) / 100,
-        science: (28.65 * 20) / 100,
-        math: (21.28 * 16) / 100,
-      },
-    },
-  },
   onet_m6: {
     filePaths: [
       "openthaigpt_eval/onet_m6_thai.jsonl",
@@ -42,6 +9,10 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
       "openthaigpt_eval/onet_m6_math.jsonl",
       "openthaigpt_eval/onet_m6_science.jsonl",
     ],
+    datasetProviderInfo: {
+      name: "OpenThaiGPT Evaluation Dataset",
+      url: "https://huggingface.co/datasets/openthaigpt/openthaigpt_eval",
+    },
     shortTitle: "Thai O-NET Tests",
     shortEnglishDescription: "O-NET standardized tests",
     title: "O-NET: Ordinary National Educational Test (ชั้นมัธยมศึกษาปีที่ 6)",
@@ -79,6 +50,10 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
     shortEnglishDescription: "Applied Knowledge Level tests",
     title: "A-Level: Applied Knowledge Level",
     description: "การทดสอบความรู้เชิงวิชาการระดับประยุกต์",
+    datasetProviderInfo: {
+      name: "ThaiExam Dataset",
+      url: "https://huggingface.co/datasets/scb10x/thai_exam",
+    },
   },
   ic: {
     filePaths: ["thai_exam/data/ic/ic_test.jsonl"],
@@ -102,6 +77,10 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
           "P3 - หลักสูตรความรู้เกี่ยวกับตราสารที่มีความซับซ้อน : สัญญาซื้อขายล่วงหน้า",
       },
     },
+    datasetProviderInfo: {
+      name: "ThaiExam Dataset",
+      url: "https://huggingface.co/datasets/scb10x/thai_exam",
+    },
   },
   tgat: {
     filePaths: ["thai_exam/data/tgat/tgat_test.jsonl"],
@@ -118,6 +97,10 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
         shortTitle: "TGAT3",
         title: "TGAT3 สมรรถนะการทำงาน",
       },
+    },
+    datasetProviderInfo: {
+      name: "ThaiExam Dataset",
+      url: "https://huggingface.co/datasets/scb10x/thai_exam",
     },
   },
   tpat1: {
@@ -136,6 +119,10 @@ const examPresetDefinitions: Record<string, ExamPresetDefinition> = {
         title: "จริยธรรมทางการแพทย์",
       },
     },
+    datasetProviderInfo: {
+      name: "ThaiExam Dataset",
+      url: "https://huggingface.co/datasets/scb10x/thai_exam",
+    },
   },
 };
 
@@ -147,6 +134,12 @@ interface ExamPresetDefinition {
   description: string;
   subjects?: Record<string, SubjectDefinition>;
   humanScore?: HumanScore;
+  datasetProviderInfo: DatasetProviderInfo;
+}
+
+export interface DatasetProviderInfo {
+  name: string;
+  url: string;
 }
 
 export interface SubjectDefinition {
@@ -220,6 +213,10 @@ export class ExamPreset {
 
   get humanScore() {
     return this.definition.humanScore;
+  }
+
+  get datasetProviderInfo() {
+    return this.definition.datasetProviderInfo;
   }
 }
 

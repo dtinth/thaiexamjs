@@ -1,4 +1,5 @@
 import { evaluateQuestion } from "../src/evaluateQuestion";
+import { gradeTask, showGradedTask } from "../src/gradeTask";
 import { taskStorage } from "../src/persistence";
 import type { TaskStatus } from "../src/taskStatus";
 import {
@@ -43,10 +44,11 @@ async function runWorker() {
     try {
       const result = await evaluateQuestion(
         task.modelPresetId,
-        task.questionEntry.question,
-        2
+        task.questionEntry.question
       );
       await release(result);
+      const gradedTask = await gradeTask(task);
+      if (gradedTask) showGradedTask(gradedTask);
       console.log(`Task completed: ${task.id}`);
     } catch (err) {
       await release(
@@ -54,6 +56,10 @@ async function runWorker() {
         err instanceof Error ? err.message : String(err)
       );
       console.error(`Task failed: ${task.id}`, err);
+    }
+    if (process.env["SINGLE_RUN"]) {
+      console.log("Single run mode: exiting after one task.");
+      break;
     }
   }
 }

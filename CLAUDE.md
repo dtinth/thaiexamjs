@@ -2,13 +2,14 @@
 
 ## Commands
 
-- Run with model: `bun run run-model <model-preset-id>`
-- Run specific exam type: `EXAM_FILTER=onet bun run run-model <model-preset-id>`
+- Run worker to process exams: `bun work`
+- Run specific questions: `QUESTION_FILTER=onet bun work` (filter by question ID)
+- Run specific models: `MODEL_FILTER=claude bun work` (filter by model preset ID)
 - Run specific test: `bun run scripts/test.ts` (modify preset/question in file)
-- Display report on console: `bun run report`
-- Export logs: `bun run export`
-- Import logs: `bun run import`
-- Generate HTML reports: `bun html`
+- Start web server for report viewing: `bun dev`
+- Export logs: `bun export`
+- Import logs: `bun import`
+- Generate static HTML reports: `bun html`
 
 ## Important Notes
 
@@ -16,8 +17,18 @@
 
 ## Environment
 
-- Required .env vars: ANTHROPIC_API_KEY, AZURE_API_KEY, AZURE_API_ENDPOINT, GOOGLE_GENERATIVE_AI_API_KEY, OPENAI_API_KEY
-- Optional: SHARD, EXAM_FILTER
+- API Keys (add the ones you need for the models you want to test):
+  - ANTHROPIC_API_KEY - For Claude models
+  - GOOGLE_GENERATIVE_AI_API_KEY - For Gemini models
+  - OPENAI_API_KEY - For OpenAI models (GPT-4o, GPT-4.1, etc.)
+  - XAI_API_KEY - For Grok models
+  - OPENTYPHOON_API_KEY - For Typhoon models
+  - TOGETHER_API_KEY - For models hosted on Together.ai
+  - OPENROUTER_API_KEY - For models accessible via OpenRouter
+- Optional environment variables:
+  - QUESTION_FILTER - Filter questions by pattern
+  - MODEL_FILTER - Filter models by pattern
+  - WORKER_COUNT - Number of parallel workers (default: 1)
 
 ## Coding Style
 
