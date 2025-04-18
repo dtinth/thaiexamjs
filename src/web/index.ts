@@ -172,8 +172,28 @@ class ExamPage implements WebPage {
   }
 
   renderOverallTable(): Html {
-    const { ui, statsByModel } = this;
+    const { ui, examPreset, statsByModel } = this;
     const overallTable = new OverallTable(statsByModel, ui);
+    overallTable.extraColumns = Object.entries(examPreset.subjects || {}).map(
+      ([subjectId, subjectDefinition]) => {
+        return {
+          header: html`${subjectDefinition.shortTitle}`,
+          render: (modelStat: StatsByModelEntry) => {
+            const gradedTasks = this.gradedTasks.filter(
+              (gradedTask) =>
+                gradedTask.task.questionEntry.question.subject === subjectId &&
+                gradedTask.task.modelPresetId === modelStat.modelPresetId
+            );
+            const total = gradedTasks.length;
+            const score = gradedTasks.reduce(
+              (acc, gradedTask) => acc + gradedTask.score,
+              0
+            );
+            return html`${ui.ofTotal(score, total)}`;
+          },
+        };
+      }
+    );
     return html`
       <h2>Overall ranking</h2>
       ${overallTable.render()}
@@ -187,9 +207,11 @@ class ExamPage implements WebPage {
       questionEntries: QuestionEntry[];
     };
     const groupMap = new Map<string, SubjectGroup>();
-    for (const subjectId of Object.keys(examPreset.subjects || {})) {
+    for (const [subjectId, subjectDefinition] of Object.entries(
+      examPreset.subjects || {}
+    )) {
       groupMap.set(subjectId, {
-        subjectDefinition: examPreset.subjects![subjectId],
+        subjectDefinition: subjectDefinition,
         questionEntries: [],
       });
     }
@@ -296,8 +318,14 @@ class OverallTable {
     private statsByModel: StatsByModelEntry[],
     private ui: UiToolkit
   ) {}
+
+  extraColumns: {
+    header: Html;
+    render: (modelStat: StatsByModelEntry) => Html;
+  }[] = [];
+
   render() {
-    const { ui, statsByModel } = this;
+    const { ui, statsByModel, extraColumns } = this;
     function thb(baht: number) {
       return `฿${baht.toFixed(2)}`;
     }
@@ -307,7 +335,10 @@ class OverallTable {
           <tr>
             <th scope="col">Model</th>
             <th class="text-end" scope="col">Cost</th>
-            <!-- TODO: By subject -->
+            ${extraColumns.map(
+              (column) =>
+                html`<th class="text-end" scope="col">${column.header}</th>`
+            )}
             <th class="text-end" scope="col">Overall</th>
             <th class="text-end" scope="col">Acc</th>
           </tr>
@@ -333,7 +364,11 @@ class OverallTable {
                   ? ui.tooltip(thb(modelStat.costThb), tooltipContent)
                   : "—"}
               </td>
-              <!-- TODO: By subject -->
+              ${extraColumns.map(
+                (column) => html`
+                  <td class="text-end">${column.render(modelStat)}</td>
+                `
+              )}
               <td class="text-end">
                 ${ui.ofTotal(modelStat.score, modelStat.total)}
               </td>

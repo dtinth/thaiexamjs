@@ -133,6 +133,7 @@ export const modelPresets: Record<string, ModelPreset> = {
     createModel: (id) => xai(id),
     cost: [0.3, 0.5],
     icon: "ri:twitter-x-line",
+    displayName: "grok-3-mini-beta[thinking]",
   },
 
   // Meta Llama
