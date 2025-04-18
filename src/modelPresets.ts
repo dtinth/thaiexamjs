@@ -3,7 +3,7 @@ import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { xai } from "@ai-sdk/xai";
-import type { LanguageModelV1 } from "ai";
+import type { generateText, LanguageModelV1 } from "ai";
 
 const opentyphoon = createOpenAICompatible({
   name: "opentyphoon",
@@ -170,6 +170,24 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [15, 60],
     icon: "ri:openai-fill",
   },
+  "o3-2025-04-16[high]": {
+    createModel: (id) => openai(id.replace(/\[.+$/, "")),
+    cost: [10, 40],
+    providerOptions: { openai: { reasoningEffort: "high" } },
+    icon: "ri:openai-fill",
+  },
+  "o3-2025-04-16[medium]": {
+    createModel: (id) => openai(id.replace(/\[.+$/, "")),
+    cost: [10, 40],
+    providerOptions: { openai: { reasoningEffort: "medium" } },
+    icon: "ri:openai-fill",
+  },
+  "o3-2025-04-16[low]": {
+    createModel: (id) => openai(id.replace(/\[.+$/, "")),
+    cost: [10, 40],
+    providerOptions: { openai: { reasoningEffort: "low" } },
+    icon: "ri:openai-fill",
+  },
   "o3-mini-2025-01-31[low]": {
     createModel: (_id) => openRouter("openai/o3-mini"),
     cost: [1.1, 4.4],
@@ -243,7 +261,9 @@ export const modelPresets: Record<string, ModelPreset> = {
 export interface ModelPreset {
   createModel: (id: string) => LanguageModelV1;
   cost: [prompt: number, completion: number];
-  providerOptions?: Record<string, any>;
+  providerOptions?: ProviderOptions;
   displayName?: string;
   icon?: string;
 }
+
+type ProviderOptions = Parameters<typeof generateText>[0]["providerOptions"];

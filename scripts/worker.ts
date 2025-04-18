@@ -57,6 +57,10 @@ async function runWorker() {
       );
       console.error(`Task failed: ${task.id}`, err);
     }
+    if (process.env["SINGLE_RUN"]) {
+      console.log("Single run mode: exiting after one task.");
+      break;
+    }
   }
 }
 
