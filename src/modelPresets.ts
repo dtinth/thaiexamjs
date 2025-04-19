@@ -1,5 +1,5 @@
 import { anthropic } from "@ai-sdk/anthropic";
-import { google } from "@ai-sdk/google";
+import { google, type GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { xai } from "@ai-sdk/xai";
@@ -87,6 +87,16 @@ export const modelPresets: Record<string, ModelPreset> = {
     createModel: (id) => google(id),
     cost: [1.25, 10],
     icon: "ri:gemini-fill",
+  },
+  "gemini-2.5-flash-preview-04-17[no-thinking]": {
+    createModel: (id) => google(id.replace(/\[.+$/, "")),
+    cost: [0.15, 0.6],
+    icon: "ri:gemini-fill",
+    providerOptions: {
+      google: {
+        thinkingConfig: { thinkingBudget: 0 },
+      } satisfies GoogleGenerativeAIProviderOptions,
+    },
   },
 
   // Google’s Gemma models
