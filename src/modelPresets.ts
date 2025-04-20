@@ -24,6 +24,7 @@ const openRouter = createOpenAICompatible({
 });
 
 export const modelPresets: Record<string, ModelPreset> = {
+  // Claude models
   "claude-3-5-sonnet-20241022": {
     createModel: (id) => anthropic(id),
     cost: [3, 15],
@@ -45,7 +46,13 @@ export const modelPresets: Record<string, ModelPreset> = {
     icon: "ri:claude-fill",
   },
 
-  // Anthropic Claude models
+  // Cohere models
+  "command-a-03-2025": {
+    createModel: (_id) => openRouter("cohere/command-a"),
+    cost: [2.5, 10],
+  },
+
+  // DeepSeek Models
   "deepseek-chat-v3-0324": {
     createModel: (_id) => together("deepseek-ai/DeepSeek-V3"),
     cost: [1.5, 1.5],
