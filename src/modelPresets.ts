@@ -181,6 +181,23 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [2, 6],
   },
 
+  // Amazon Nova models
+  "nova-pro-v1": {
+    createModel: (id) => openRouter(`amazon/${id}`),
+    cost: [0.8, 3.2],
+    icon: "ri:amazon-fill",
+  },
+  "nova-lite-v1": {
+    createModel: (id) => openRouter(`amazon/${id}`),
+    cost: [0.06, 0.24],
+    icon: "ri:amazon-fill",
+  },
+  "nova-micro-v1": {
+    createModel: (id) => openRouter(`amazon/${id}`),
+    cost: [0.035, 0.14],
+    icon: "ri:amazon-fill",
+  },
+
   // OpenAI O models
   "o1-2024-12-17": {
     createModel: (_id) => openRouter("openai/o1"),
