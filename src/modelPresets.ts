@@ -278,6 +278,21 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [1.2, 1.2],
     icon: "ri:alibaba-cloud-fill",
   },
+  "qwen3-30b-a3b": {
+    createModel: (id) => openRouter(`qwen/${id}`),
+    cost: [0.1, 0.3],
+    icon: "ri:alibaba-cloud-fill",
+  },
+  "qwen3-32b": {
+    createModel: (id) => openRouter(`qwen/${id}`),
+    cost: [0.1, 0.3],
+    icon: "ri:alibaba-cloud-fill",
+  },
+  "qwen3-235b-a22b": {
+    createModel: (id) => openRouter(`qwen/${id}`),
+    cost: [0.2, 0.6],
+    icon: "ri:alibaba-cloud-fill",
+  },
 
   // SCB 10X's Typhoon models
   "typhoon-v2-70b-instruct": {
