@@ -177,3 +177,9 @@ dist
 
 # Generated documentation
 docs/
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+test-results/**/*.png
+test-results/**/*.jpeg
