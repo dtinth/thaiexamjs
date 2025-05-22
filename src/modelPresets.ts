@@ -45,6 +45,36 @@ export const modelPresets: Record<string, ModelPreset> = {
     },
     icon: "ri:claude-fill",
   },
+  "claude-sonnet-4-20250514": {
+    createModel: (id) => anthropic(id),
+    cost: [3, 15],
+    icon: "ri:claude-fill",
+  },
+  "claude-sonnet-4-20250514[thinking=16k]": {
+    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
+    cost: [3, 15],
+    providerOptions: {
+      anthropic: {
+        thinking: { type: "enabled", budgetTokens: 12000 },
+      },
+    },
+    icon: "ri:claude-fill",
+  },
+  "claude-opus-4-20250514": {
+    createModel: (id) => anthropic(id),
+    cost: [15, 75],
+    icon: "ri:claude-fill",
+  },
+  "claude-opus-4-20250514[thinking=16k]": {
+    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
+    cost: [15, 75],
+    providerOptions: {
+      anthropic: {
+        thinking: { type: "enabled", budgetTokens: 12000 },
+      },
+    },
+    icon: "ri:claude-fill",
+  },
 
   // Cohere models
   "command-a-03-2025": {
