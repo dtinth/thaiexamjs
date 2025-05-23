@@ -14,6 +14,7 @@
 ## Important Notes
 
 - The `docs/` directory contains generated HTML files. Don't read or modify these directly; instead, update the generation scripts.
+- When running in GitHub Actions (detected by presence of `<pr_or_issue_body>` tags in the initial prompt), Claude cannot directly create workflow files and must provide file contents in comments for manual creation.
 
 ## Environment
 
