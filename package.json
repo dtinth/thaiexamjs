@@ -25,6 +25,7 @@
   "module": "src/index.ts",
   "type": "module",
   "devDependencies": {
+    "@playwright/test": "^1.49.1",
     "@tsconfig/bun": "^1.0.7",
     "@types/bun": "latest",
     "@types/lodash-es": "^4.17.12",
@@ -40,6 +41,8 @@
     "export": "bun run scripts/export.ts -o snapshot.jsonl.br",
     "import": "bun run scripts/import.ts -i snapshot.jsonl.br",
     "html": "bun run scripts/webBuilder.ts",
-    "dev": "env PORT=2518 bun --watch scripts/webServer.ts"
+    "dev": "env PORT=2518 bun --watch scripts/webServer.ts",
+    "test": "playwright test",
+    "test:install": "playwright install"
   }
 }
