@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import { gradeTask, showGradedTask } from "../src/gradeTask";
 import { enumerateAllTasks } from "../src/taskUtils";
 
@@ -17,6 +18,6 @@ if (!gradedTask) {
 }
 
 console.log("Graded task:");
-console.log(gradedTask);
+console.log(inspect(gradedTask, { depth: 10, colors: true }));
 
 showGradedTask(gradedTask);

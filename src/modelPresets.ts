@@ -88,9 +88,14 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [1.5, 1.5],
     icon: "arcticons:deepseek",
   },
-  "deepseek-r1": {
-    createModel: (_id) => together("deepseek-ai/DeepSeek-R1"),
-    cost: [3, 7],
+  // "deepseek-r1": {
+  //   createModel: (_id) => together("deepseek-ai/DeepSeek-R1"),
+  //   cost: [3, 7],
+  //   icon: "arcticons:deepseek",
+  // },
+  "deepseek-r1-0528": {
+    createModel: (id) => openRouter(`deepseek/${id}`),
+    cost: [0.5, 2.15],
     icon: "arcticons:deepseek",
   },
 
@@ -110,42 +115,62 @@ export const modelPresets: Record<string, ModelPreset> = {
     cost: [0.1, 0.4],
     icon: "ri:gemini-fill",
   },
-  "gemini-2.0-flash-thinking-exp-01-21": {
-    createModel: (id) => google(id),
-    cost: [0, 0],
-    icon: "ri:gemini-fill",
-  },
-  "gemini-2.5-flash-preview-04-17": {
-    createModel: (id) => google(id),
-    cost: [0.15, 3.5],
-    icon: "ri:gemini-fill",
-  },
-  "gemini-2.5-pro-preview-03-25": {
+  // "gemini-2.0-flash-thinking-exp-01-21": {
+  //   createModel: (id) => google(id),
+  //   cost: [0, 0],
+  //   icon: "ri:gemini-fill",
+  // },
+  // "gemini-2.5-flash-preview-04-17": {
+  //   createModel: (id) => google(id),
+  //   cost: [0.15, 3.5],
+  //   icon: "ri:gemini-fill",
+  // },
+  // "gemini-2.5-pro-preview-03-25": {
+  //   createModel: (id) => google(id),
+  //   cost: [1.25, 10],
+  //   icon: "ri:gemini-fill",
+  // },
+  // "gemini-2.5-pro-preview-05-06": {
+  //   createModel: (id) => google(id),
+  //   cost: [1.25, 10],
+  //   icon: "ri:gemini-fill",
+  // },
+  "gemini-2.5-pro": {
     createModel: (id) => google(id),
     cost: [1.25, 10],
     icon: "ri:gemini-fill",
   },
-  "gemini-2.5-pro-preview-05-06": {
-    createModel: (id) => google(id),
-    cost: [1.25, 10],
-    icon: "ri:gemini-fill",
-  },
-  "gemini-2.5-flash-preview-04-17[no-thinking]": {
-    createModel: (id) => google(id.replace(/\[.+$/, "")),
-    cost: [0.15, 0.6],
-    icon: "ri:gemini-fill",
-    providerOptions: {
-      google: {
-        thinkingConfig: { thinkingBudget: 0 },
-      } satisfies GoogleGenerativeAIProviderOptions,
-    },
-  },
-  "gemini-2.5-flash-preview-05-20": {
+  // "gemini-2.5-flash-preview-04-17[no-thinking]": {
+  //   createModel: (id) => google(id.replace(/\[.+$/, "")),
+  //   cost: [0.15, 0.6],
+  //   icon: "ri:gemini-fill",
+  //   providerOptions: {
+  //     google: {
+  //       thinkingConfig: { thinkingBudget: 0 },
+  //     } satisfies GoogleGenerativeAIProviderOptions,
+  //   },
+  // },
+  // "gemini-2.5-flash-preview-05-20": {
+  //   createModel: (id) => google(id),
+  //   cost: [0.15, 3.5],
+  //   icon: "ri:gemini-fill",
+  // },
+  // "gemini-2.5-flash-preview-05-20[no-thinking]": {
+  //   createModel: (id) => google(id.replace(/\[.+$/, "")),
+  //   cost: [0.15, 0.6],
+  //   icon: "ri:gemini-fill",
+  //   providerOptions: {
+  //     google: {
+  //       thinkingConfig: { thinkingBudget: 0 },
+  //     } satisfies GoogleGenerativeAIProviderOptions,
+  //   },
+  // },
+  "gemini-2.5-flash": {
     createModel: (id) => google(id),
     cost: [0.15, 3.5],
     icon: "ri:gemini-fill",
   },
-  "gemini-2.5-flash-preview-05-20[no-thinking]": {
+  "gemini-2.5-flash[no-thinking]": {
     createModel: (id) => google(id.replace(/\[.+$/, "")),
     cost: [0.15, 0.6],
     icon: "ri:gemini-fill",
@@ -207,6 +232,22 @@ export const modelPresets: Record<string, ModelPreset> = {
     icon: "ri:twitter-x-line",
     displayName: "grok-3-mini-beta[thinking]",
   },
+  "grok-3": {
+    createModel: (id) => xai(id),
+    cost: [3, 15],
+    icon: "ri:twitter-x-line",
+  },
+  "grok-3-mini": {
+    createModel: (id) => xai(id),
+    cost: [0.3, 0.5],
+    icon: "ri:twitter-x-line",
+    displayName: "grok-3-mini-beta[thinking]",
+  },
+  "grok-4": {
+    createModel: () => openRouter("x-ai/grok-4"),
+    cost: [3, 15],
+    icon: "ri:twitter-x-line",
+  },
 
   // Meta Llama
   "llama-4-maverick": {
@@ -229,6 +270,13 @@ export const modelPresets: Record<string, ModelPreset> = {
   "mistral-large-2411": {
     createModel: (_id) => openRouter("mistralai/mistral-large-2411"),
     cost: [2, 6],
+  },
+
+  // Moonshot AI
+  "kimi-k2": {
+    createModel: () => openRouter("moonshotai/kimi-k2"),
+    cost: [0.55, 2.2],
+    icon: "ri:twitter-x-line",
   },
 
   // Amazon Nova models
