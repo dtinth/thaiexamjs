@@ -21,9 +21,13 @@ const outputPath = argv.o as string | undefined;
 // Create an async iterable of log entries
 async function* generatePayload() {
   const tasks = enumerateAllTasks();
-  for (const task of tasks) {
+  for (const [index, task] of tasks.entries()) {
     const status = await taskStorage.getItem(task.id);
     if (!status) continue;
+    if (index % 100 == 0) {
+      console.log(`Exporting task ${index + 1} of ${tasks.length}`);
+      await new Promise((resolve) => setImmediate(resolve));
+    }
     yield JSON.stringify({ _id: task.id, ...status }) + "\n";
   }
 }
@@ -37,7 +41,7 @@ function getOutput(outputPath?: string) {
   if (outputPath.endsWith(".br")) {
     const compressor = zlib.createBrotliCompress({
       params: {
-        [zlib.constants.BROTLI_PARAM_QUALITY]: 7,
+        [zlib.constants.BROTLI_PARAM_QUALITY]: 9,
         [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,
       },
     });

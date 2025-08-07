@@ -75,6 +75,21 @@ export const modelPresets: Record<string, ModelPreset> = {
     },
     icon: "ri:claude-fill",
   },
+  "claude-opus-4-1-20250805": {
+    createModel: (id) => anthropic(id),
+    cost: [15, 75],
+    icon: "ri:claude-fill",
+  },
+  "claude-opus-4-1-20250805[thinking=16k]": {
+    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
+    cost: [15, 75],
+    providerOptions: {
+      anthropic: {
+        thinking: { type: "enabled", budgetTokens: 12000 },
+      },
+    },
+    icon: "ri:claude-fill",
+  },
 
   // Cohere models
   "command-a-03-2025": {
@@ -217,6 +232,31 @@ export const modelPresets: Record<string, ModelPreset> = {
   "gpt-4o-mini-2024-07-18": {
     createModel: (id) => openai(id),
     cost: [0.15, 0.6],
+    icon: "ri:openai-fill",
+  },
+  "gpt-5-2025-08-07": {
+    createModel: (id) => openai(id),
+    cost: [1.25, 10],
+    icon: "ri:openai-fill",
+  },
+  "gpt-5-mini-2025-08-07": {
+    createModel: (id) => openai(id),
+    cost: [0.25, 2],
+    icon: "ri:openai-fill",
+  },
+  "gpt-5-nano-2025-08-07": {
+    createModel: (id) => openai(id),
+    cost: [0.05, 0.4],
+    icon: "ri:openai-fill",
+  },
+  "gpt-oss-120b": {
+    createModel: (_id) => openRouter("openai/gpt-oss-120b"),
+    cost: [0.09, 0.45],
+    icon: "ri:openai-fill",
+  },
+  "gpt-oss-20b": {
+    createModel: (_id) => openRouter("openai/gpt-oss-20b"),
+    cost: [0.04, 0.16],
     icon: "ri:openai-fill",
   },
 
@@ -412,6 +452,20 @@ export const modelPresets: Record<string, ModelPreset> = {
   "typhoon-v2-r1-70b-preview": {
     createModel: (id) => opentyphoon(id),
     cost: [0.9, 0.9], // Based on https://www.together.ai/pricing
+  },
+  "typhoon-v2.1-12b-instruct": {
+    createModel: (_id) => together("scb10x/scb10x-typhoon-2-1-gemma3-12b"),
+    cost: [0.2, 0.2],
+  },
+
+  // Z.AI models
+  "glm-4.5": {
+    createModel: (_id) => openRouter("z-ai/glm-4.5"),
+    cost: [0.55, 2],
+  },
+  "glm-4.5-air": {
+    createModel: (_id) => openRouter("z-ai/glm-4.5-air"),
+    cost: [0.2, 1.1],
   },
 };
 
