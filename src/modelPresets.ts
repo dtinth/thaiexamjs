@@ -3,6 +3,7 @@ import { google, type GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { xai } from "@ai-sdk/xai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import type { generateText, LanguageModelV1 } from "ai";
 
 const opentyphoon = createOpenAICompatible({
@@ -17,10 +18,8 @@ const together = createOpenAICompatible({
   baseURL: "https://api.together.xyz/v1",
 });
 
-const openRouter = createOpenAICompatible({
-  name: "openrouter",
+const openRouter = createOpenRouter({
   apiKey: process.env["OPENROUTER_API_KEY"],
-  baseURL: "https://openrouter.ai/api/v1",
 });
 
 export const modelPresets: Record<string, ModelPreset> = {
@@ -111,6 +110,22 @@ export const modelPresets: Record<string, ModelPreset> = {
   "deepseek-r1-0528": {
     createModel: (id) => openRouter(`deepseek/${id}`),
     cost: [0.5, 2.15],
+    icon: "arcticons:deepseek",
+  },
+  "deepseek-chat-v3.1": {
+    createModel: (_id) =>
+      openRouter("deepseek/deepseek-chat-v3.1", {
+        extraBody: { reasoning: { enabled: false } },
+      }),
+    cost: [0.3, 1],
+    icon: "arcticons:deepseek",
+  },
+  "deepseek-reasoner-v3.1": {
+    createModel: (_id) =>
+      openRouter("deepseek/deepseek-chat-v3.1", {
+        extraBody: { reasoning: { enabled: true } },
+      }),
+    cost: [0.3, 1],
     icon: "arcticons:deepseek",
   },
 
