@@ -89,6 +89,36 @@ export const modelPresets: Record<string, ModelPreset> = {
     },
     icon: "ri:claude-fill",
   },
+  "claude-sonnet-4-5-20250929": {
+    createModel: (id) => anthropic(id),
+    cost: [3, 15],
+    icon: "ri:claude-fill",
+  },
+  "claude-sonnet-4-5-20250929[thinking=16k]": {
+    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
+    cost: [3, 15],
+    providerOptions: {
+      anthropic: {
+        thinking: { type: "enabled", budgetTokens: 16000 },
+      },
+    },
+    icon: "ri:claude-fill",
+  },
+  "claude-haiku-4-5-20251001": {
+    createModel: (id) => anthropic(id),
+    cost: [3, 15],
+    icon: "ri:claude-fill",
+  },
+  "claude-haiku-4-5-20251001[thinking=16k]": {
+    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
+    cost: [3, 15],
+    providerOptions: {
+      anthropic: {
+        thinking: { type: "enabled", budgetTokens: 16000 },
+      },
+    },
+    icon: "ri:claude-fill",
+  },
 
   // Cohere models
   "command-a-03-2025": {
@@ -209,6 +239,11 @@ export const modelPresets: Record<string, ModelPreset> = {
         thinkingConfig: { thinkingBudget: 0 },
       } satisfies GoogleGenerativeAIProviderOptions,
     },
+  },
+  "gemini-3-pro-preview": {
+    createModel: (id) => google(id),
+    cost: [2, 12],
+    icon: "ri:gemini-fill",
   },
 
   // Google’s Gemma models
