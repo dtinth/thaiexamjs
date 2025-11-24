@@ -119,6 +119,21 @@ export const modelPresets: Record<string, ModelPreset> = {
     },
     icon: "ri:claude-fill",
   },
+  "claude-opus-4-5-20251101": {
+    createModel: (id) => anthropic(id),
+    cost: [5, 25],
+    icon: "ri:claude-fill",
+  },
+  "claude-opus-4-5-20251101[thinking=16k]": {
+    createModel: (id) => anthropic(id.replace(/\[.+$/, "")),
+    cost: [5, 25],
+    providerOptions: {
+      anthropic: {
+        thinking: { type: "enabled", budgetTokens: 16000 },
+      },
+    },
+    icon: "ri:claude-fill",
+  },
 
   // Cohere models
   "command-a-03-2025": {
@@ -285,6 +300,11 @@ export const modelPresets: Record<string, ModelPreset> = {
     icon: "ri:openai-fill",
   },
   "gpt-5-2025-08-07": {
+    createModel: (id) => openai(id),
+    cost: [1.25, 10],
+    icon: "ri:openai-fill",
+  },
+  "gpt-5.1-2025-11-13": {
     createModel: (id) => openai(id),
     cost: [1.25, 10],
     icon: "ri:openai-fill",
