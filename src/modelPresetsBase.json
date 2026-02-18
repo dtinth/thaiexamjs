@@ -1,0 +1,628 @@
+[
+  {
+    "id": "claude-3-5-sonnet-20241022",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-3-7-sonnet-20250219",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-3-7-sonnet-20250219[thinking=16k]",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-sonnet-4-20250514",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-sonnet-4-20250514[thinking=16k]",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-opus-4-20250514",
+    "inputPrice": 15,
+    "outputPrice": 75,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-opus-4-20250514[thinking=16k]",
+    "inputPrice": 15,
+    "outputPrice": 75,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-opus-4-1-20250805",
+    "inputPrice": 15,
+    "outputPrice": 75,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-opus-4-1-20250805[thinking=16k]",
+    "inputPrice": 15,
+    "outputPrice": 75,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "claude-sonnet-4-5-20250929",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "claude-sonnet-4-5-20250929[thinking=16k]",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "claude-haiku-4-5-20251001",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "claude-haiku-4-5-20251001[thinking=16k]",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "claude-opus-4-5-20251101",
+    "inputPrice": 5,
+    "outputPrice": 25,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "claude-opus-4-5-20251101[thinking=16k]",
+    "inputPrice": 5,
+    "outputPrice": 25,
+    "icon": "ri:claude-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "command-a-03-2025",
+    "inputPrice": 2.5,
+    "outputPrice": 10,
+    "icon": "",
+    "model": "cohere/command-a",
+    "old": true
+  },
+  {
+    "id": "deepseek-chat-v3-0324",
+    "inputPrice": 1.5,
+    "outputPrice": 1.5,
+    "icon": "arcticons:deepseek",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "deepseek-r1-0528",
+    "inputPrice": 0.5,
+    "outputPrice": 2.15,
+    "icon": "arcticons:deepseek",
+    "model": "deepseek/deepseek-r1-0528",
+    "old": false
+  },
+  {
+    "id": "deepseek-chat-v3.1",
+    "inputPrice": 0.3,
+    "outputPrice": 1,
+    "icon": "arcticons:deepseek",
+    "model": "deepseek/deepseek-chat-v3.1",
+    "params": {
+      "reasoning": {
+        "enabled": false
+      }
+    },
+    "old": false
+  },
+  {
+    "id": "deepseek-reasoner-v3.1",
+    "inputPrice": 0.3,
+    "outputPrice": 1,
+    "icon": "arcticons:deepseek",
+    "model": "deepseek/deepseek-chat-v3.1",
+    "params": {
+      "reasoning": {
+        "enabled": true
+      }
+    },
+    "old": false
+  },
+  {
+    "id": "gemini-1.5-pro-002",
+    "inputPrice": 1.25,
+    "outputPrice": 5,
+    "icon": "ri:gemini-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gemini-2.0-flash-001",
+    "inputPrice": 0.1,
+    "outputPrice": 0.4,
+    "icon": "ri:gemini-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gemini-2.0-flash-lite-001",
+    "inputPrice": 0.1,
+    "outputPrice": 0.4,
+    "icon": "ri:gemini-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gemini-2.5-pro",
+    "inputPrice": 1.25,
+    "outputPrice": 10,
+    "icon": "ri:gemini-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "gemini-2.5-flash",
+    "inputPrice": 0.15,
+    "outputPrice": 3.5,
+    "icon": "ri:gemini-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "gemini-2.5-flash[no-thinking]",
+    "inputPrice": 0.15,
+    "outputPrice": 0.6,
+    "icon": "ri:gemini-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "gemini-3-pro-preview",
+    "inputPrice": 2,
+    "outputPrice": 12,
+    "icon": "ri:gemini-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "gemma-3-27b-it",
+    "inputPrice": 0.1,
+    "outputPrice": 0.2,
+    "icon": "ri:gemini-line",
+    "model": "google/gemma-3-27b-it",
+    "old": false
+  },
+  {
+    "id": "gpt-4.1-2025-04-14",
+    "inputPrice": 2,
+    "outputPrice": 8,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gpt-4.1-mini-2025-04-14",
+    "inputPrice": 0.4,
+    "outputPrice": 1.6,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gpt-4.1-nano-2025-04-14",
+    "inputPrice": 0.1,
+    "outputPrice": 0.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gpt-4.5-preview-2025-02-27",
+    "inputPrice": 75,
+    "outputPrice": 150,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gpt-4o-2024-08-06",
+    "inputPrice": 2.5,
+    "outputPrice": 10,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gpt-4o-mini-2024-07-18",
+    "inputPrice": 0.15,
+    "outputPrice": 0.6,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gpt-5-2025-08-07",
+    "inputPrice": 1.25,
+    "outputPrice": 10,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "gpt-5.1-2025-11-13",
+    "inputPrice": 1.25,
+    "outputPrice": 10,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "gpt-5-mini-2025-08-07",
+    "inputPrice": 0.25,
+    "outputPrice": 2,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "gpt-5-nano-2025-08-07",
+    "inputPrice": 0.05,
+    "outputPrice": 0.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "gpt-oss-120b",
+    "inputPrice": 0.09,
+    "outputPrice": 0.45,
+    "icon": "ri:openai-fill",
+    "model": "openai/gpt-oss-120b",
+    "old": false
+  },
+  {
+    "id": "gpt-oss-20b",
+    "inputPrice": 0.04,
+    "outputPrice": 0.16,
+    "icon": "ri:openai-fill",
+    "model": "openai/gpt-oss-20b",
+    "old": false
+  },
+  {
+    "id": "grok-3-beta",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:twitter-x-line",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "grok-3-mini-beta",
+    "inputPrice": 0.3,
+    "outputPrice": 0.5,
+    "icon": "ri:twitter-x-line",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "grok-3",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:twitter-x-line",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "grok-3-mini",
+    "inputPrice": 0.3,
+    "outputPrice": 0.5,
+    "icon": "ri:twitter-x-line",
+    "model": "legacy",
+    "old": true
+  },
+  {
+    "id": "grok-4",
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "icon": "ri:twitter-x-line",
+    "model": "x-ai/grok-4",
+    "old": false
+  },
+  {
+    "id": "llama-4-maverick",
+    "inputPrice": 0.18,
+    "outputPrice": 0.6,
+    "icon": "ri:meta-fill",
+    "model": "meta-llama/llama-4-maverick",
+    "old": false
+  },
+  {
+    "id": "llama-4-scout",
+    "inputPrice": 0.18,
+    "outputPrice": 0.6,
+    "icon": "ri:meta-fill",
+    "model": "meta-llama/llama-4-scout",
+    "old": false
+  },
+  {
+    "id": "llama-3.3-70b-instruct",
+    "inputPrice": 0.1,
+    "outputPrice": 0.25,
+    "icon": "ri:meta-fill",
+    "model": "meta-llama/llama-3.3-70b-instruct",
+    "old": true
+  },
+  {
+    "id": "mistral-large-2411",
+    "inputPrice": 2,
+    "outputPrice": 6,
+    "icon": "",
+    "model": "mistralai/mistral-large-2411",
+    "old": true
+  },
+  {
+    "id": "kimi-k2",
+    "inputPrice": 0.55,
+    "outputPrice": 2.2,
+    "icon": "ri:twitter-x-line",
+    "model": "moonshotai/kimi-k2",
+    "old": true
+  },
+  {
+    "id": "nova-pro-v1",
+    "inputPrice": 0.8,
+    "outputPrice": 3.2,
+    "icon": "ri:amazon-fill",
+    "model": "amazon/nova-pro-v1",
+    "old": false
+  },
+  {
+    "id": "nova-lite-v1",
+    "inputPrice": 0.06,
+    "outputPrice": 0.24,
+    "icon": "ri:amazon-fill",
+    "model": "amazon/nova-lite-v1",
+    "old": false
+  },
+  {
+    "id": "nova-micro-v1",
+    "inputPrice": 0.035,
+    "outputPrice": 0.14,
+    "icon": "ri:amazon-fill",
+    "model": "amazon/nova-micro-v1",
+    "old": false
+  },
+  {
+    "id": "o1-2024-12-17",
+    "inputPrice": 15,
+    "outputPrice": 60,
+    "icon": "ri:openai-fill",
+    "model": "openai/o1",
+    "old": false
+  },
+  {
+    "id": "o3-2025-04-16[high]",
+    "inputPrice": 10,
+    "outputPrice": 40,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o3-2025-04-16[medium]",
+    "inputPrice": 10,
+    "outputPrice": 40,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o3-2025-04-16[low]",
+    "inputPrice": 10,
+    "outputPrice": 40,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o3-mini-2025-01-31[low]",
+    "inputPrice": 1.1,
+    "outputPrice": 4.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o3-mini-2025-01-31[medium]",
+    "inputPrice": 1.1,
+    "outputPrice": 4.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o3-mini-2025-01-31[high]",
+    "inputPrice": 1.1,
+    "outputPrice": 4.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o4-mini-2025-04-16[low]",
+    "inputPrice": 1.1,
+    "outputPrice": 4.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o4-mini-2025-04-16[medium]",
+    "inputPrice": 1.1,
+    "outputPrice": 4.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "o4-mini-2025-04-16[high]",
+    "inputPrice": 1.1,
+    "outputPrice": 4.4,
+    "icon": "ri:openai-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "phi-4",
+    "inputPrice": 0.07,
+    "outputPrice": 0.14,
+    "icon": "ri:microsoft-fill",
+    "model": "microsoft/phi-4",
+    "old": false
+  },
+  {
+    "id": "phi-4-reasoning-plus",
+    "inputPrice": 0.07,
+    "outputPrice": 0.35,
+    "icon": "ri:microsoft-fill",
+    "model": "microsoft/phi-4-reasoning-plus",
+    "old": false
+  },
+  {
+    "id": "qwen-max-2025-01-25",
+    "inputPrice": 1.6,
+    "outputPrice": 6.4,
+    "icon": "ri:alibaba-cloud-fill",
+    "model": "qwen/qwen-max",
+    "old": false
+  },
+  {
+    "id": "qwq-32b",
+    "inputPrice": 1.2,
+    "outputPrice": 1.2,
+    "icon": "ri:alibaba-cloud-fill",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "qwen3-30b-a3b",
+    "inputPrice": 0.1,
+    "outputPrice": 0.3,
+    "icon": "ri:alibaba-cloud-fill",
+    "model": "qwen/qwen3-30b-a3b",
+    "old": false
+  },
+  {
+    "id": "qwen3-32b",
+    "inputPrice": 0.1,
+    "outputPrice": 0.3,
+    "icon": "ri:alibaba-cloud-fill",
+    "model": "qwen/qwen3-32b",
+    "old": false
+  },
+  {
+    "id": "qwen3-235b-a22b",
+    "inputPrice": 0.2,
+    "outputPrice": 0.6,
+    "icon": "ri:alibaba-cloud-fill",
+    "model": "qwen/qwen3-235b-a22b",
+    "old": false
+  },
+  {
+    "id": "qwen3-next-80b-a3b-instruct",
+    "inputPrice": 0.2,
+    "outputPrice": 0.6,
+    "icon": "ri:alibaba-cloud-fill",
+    "model": "qwen/qwen3-next-80b-a3b-instruct",
+    "old": false
+  },
+  {
+    "id": "qwen3-next-80b-a3b-thinking",
+    "inputPrice": 0.2,
+    "outputPrice": 0.6,
+    "icon": "ri:alibaba-cloud-fill",
+    "model": "qwen/qwen3-next-80b-a3b-thinking",
+    "old": false
+  },
+  {
+    "id": "typhoon-v2-70b-instruct",
+    "inputPrice": 0.9,
+    "outputPrice": 0.9,
+    "icon": "",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "typhoon-v2-r1-70b-preview",
+    "inputPrice": 0.9,
+    "outputPrice": 0.9,
+    "icon": "",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "typhoon-v2.1-12b-instruct",
+    "inputPrice": 0.2,
+    "outputPrice": 0.2,
+    "icon": "",
+    "model": "legacy",
+    "old": false
+  },
+  {
+    "id": "glm-4.5",
+    "inputPrice": 0.55,
+    "outputPrice": 2,
+    "icon": "",
+    "model": "z-ai/glm-4.5",
+    "old": false
+  },
+  {
+    "id": "glm-4.5-air",
+    "inputPrice": 0.2,
+    "outputPrice": 1.1,
+    "icon": "",
+    "model": "z-ai/glm-4.5-air",
+    "old": false
+  }
+]
