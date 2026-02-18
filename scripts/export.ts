@@ -1,65 +1,56 @@
 import fs from "node:fs";
-import { Readable, compose } from "node:stream";
-import { pipeline } from "node:stream/promises";
+import path from "node:path";
 import zlib from "node:zlib";
-import yargs from "yargs";
+import { compose } from "node:stream";
+import type { Writable } from "node:stream";
 import { taskStorage } from "../src/persistence";
 import { enumerateAllTasks } from "../src/taskUtils";
 
-const argv = await yargs(process.argv.slice(2))
-  .option("o", {
-    alias: "output",
-    describe: "Output file path",
-    type: "string",
-  })
-  .strict()
-  .help()
-  .parse();
-
-const outputPath = argv.o as string | undefined;
-
-// Create an async iterable of log entries
-async function* generatePayload() {
-  const tasks = enumerateAllTasks();
-  for (const [index, task] of tasks.entries()) {
-    const status = await taskStorage.getItem(task.id);
-    if (!status) continue;
-    if (index % 100 == 0) {
-      console.log(`Exporting task ${index + 1} of ${tasks.length}`);
-      await new Promise((resolve) => setImmediate(resolve));
-    }
-    yield JSON.stringify({ _id: task.id, ...status }) + "\n";
-  }
+function sanitize(id: string) {
+  return id.replace(/[^a-zA-Z0-9._-]/g, "-").replace(/^-+|-+$/g, "");
 }
 
-// Get the appropriate output stream based on the output path
-function getOutput(outputPath?: string) {
-  if (!outputPath) {
-    return process.stdout;
-  }
-
-  if (outputPath.endsWith(".br")) {
-    const compressor = zlib.createBrotliCompress({
-      params: {
-        [zlib.constants.BROTLI_PARAM_QUALITY]: 9,
-        [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,
-      },
-    });
-    const fileStream = fs.createWriteStream(outputPath);
-    return compose(compressor, fileStream);
-  } else {
-    return fs.createWriteStream(outputPath);
-  }
+function openWriter(examPresetId: string, modelPresetId: string): Writable {
+  const dir = path.join("snapshot", examPresetId);
+  fs.mkdirSync(dir, { recursive: true });
+  const filePath = path.join(dir, `${sanitize(modelPresetId)}.jsonl.br`);
+  const compressor = zlib.createBrotliCompress({
+    params: {
+      [zlib.constants.BROTLI_PARAM_QUALITY]: 9,
+      [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,
+    },
+  });
+  return compose(compressor, fs.createWriteStream(filePath));
 }
 
-const ndjsonStream = Readable.from(generatePayload());
-const outputStream = getOutput(outputPath);
-
-await pipeline(ndjsonStream, outputStream);
-if (outputPath) {
-  console.log(
-    `Data exported${
-      outputPath.endsWith(".br") ? " and compressed" : ""
-    } to ${outputPath}`
+function closeWriter(writer: Writable): Promise<void> {
+  return new Promise((resolve, reject) =>
+    writer.end((err?: Error | null) => (err ? reject(err) : resolve()))
   );
 }
+
+const tasks = enumerateAllTasks();
+let currentKey: string | null = null;
+let currentWriter: Writable | null = null;
+let fileCount = 0;
+
+for (const [index, task] of tasks.entries()) {
+  const { examPresetId } = task.questionEntry;
+  const key = `${examPresetId}/${task.modelPresetId}`;
+
+  if (key !== currentKey) {
+    if (currentWriter) await closeWriter(currentWriter);
+    currentWriter = openWriter(examPresetId, task.modelPresetId);
+    currentKey = key;
+    fileCount++;
+    console.log(`[${fileCount}] ${key}`);
+  }
+
+  const status = await taskStorage.getItem(task.id);
+  if (!status) continue;
+
+  currentWriter!.write(JSON.stringify({ _id: task.id, ...status }) + "\n");
+}
+
+if (currentWriter) await closeWriter(currentWriter);
+console.log(`Exported to ${fileCount} files under snapshot/`);
