@@ -261,7 +261,9 @@ for (const base of modelPresetsBaseJson) {
       : (_id) =>
           openRouter(
             base.model,
-            base.params ? { extraBody: base.params as Record<string, unknown> } : undefined,
+            base.params
+              ? { extraBody: base.params as Record<string, unknown> }
+              : undefined,
           );
 
   modelPresets[base.id] = {
