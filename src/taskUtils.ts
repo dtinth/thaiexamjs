@@ -27,12 +27,18 @@ class Filter {
   }
 }
 
-export function enumerateAllTasks(): Task[] {
+export function enumerateAllTasks(
+  options: {
+    includeOldModels?: boolean;
+  } = {},
+): Task[] {
   const questionFilter = new Filter(process.env["QUESTION_FILTER"]);
   const modelFilter = new Filter(process.env["MODEL_FILTER"]);
   const tasks: Task[] = [];
   for (const modelPresetId of Object.keys(modelPresets)) {
     if (!modelFilter.matches(modelPresetId)) continue;
+    const modelPreset = modelPresets[modelPresetId];
+    if (!options.includeOldModels && modelPreset.old) continue;
     for (const examPresetId of examPresets.availableExamPresetIds) {
       const examPreset = examPresets.get(examPresetId);
       for (const questionEntry of examPreset.questionEntries) {
@@ -85,7 +91,7 @@ export async function acquireTaskForWorkerWithLease(leaseSeconds = 15) {
       };
       heartbeatInterval = setInterval(
         heartbeat,
-        Math.max(leaseSeconds - 5, 5) * 1000
+        Math.max(leaseSeconds - 5, 5) * 1000,
       );
       const release = async (result: any, error?: string) => {
         released = true;

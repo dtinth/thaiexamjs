@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
-import zlib from "node:zlib";
-import { compose } from "node:stream";
 import type { Writable } from "node:stream";
+import { compose } from "node:stream";
+import zlib from "node:zlib";
 import { taskStorage } from "../src/persistence";
 import { enumerateAllTasks } from "../src/taskUtils";
 
@@ -12,7 +12,7 @@ function sanitize(id: string) {
 
 function closeWriter(writer: Writable): Promise<void> {
   return new Promise((resolve, reject) =>
-    writer.end((err?: Error | null) => (err ? reject(err) : resolve()))
+    writer.end((err?: Error | null) => (err ? reject(err) : resolve())),
   );
 }
 
@@ -30,14 +30,17 @@ if (fs.existsSync(snapshotDir)) {
   }
 }
 
-const tasks = enumerateAllTasks();
+const tasks = enumerateAllTasks({ includeOldModels: true });
 let currentKey: string | null = null;
 let currentWriter: Writable | null = null;
 let currentFilePath: string | null = null;
 let fileCount = 0;
 const writtenFiles = new Set<string>();
 
-function openWriter(examPresetId: string, modelPresetId: string): [Writable, string] {
+function openWriter(
+  examPresetId: string,
+  modelPresetId: string,
+): [Writable, string] {
   const dir = path.join("snapshot", examPresetId);
   fs.mkdirSync(dir, { recursive: true });
   const filePath = path.join(dir, `${sanitize(modelPresetId)}.jsonl.br`);
@@ -56,7 +59,10 @@ for (const [index, task] of tasks.entries()) {
 
   if (key !== currentKey) {
     if (currentWriter) await closeWriter(currentWriter);
-    [currentWriter, currentFilePath] = openWriter(examPresetId, task.modelPresetId);
+    [currentWriter, currentFilePath] = openWriter(
+      examPresetId,
+      task.modelPresetId,
+    );
     writtenFiles.add(currentFilePath!);
     currentKey = key;
     fileCount++;
