@@ -1,7 +1,7 @@
 import { clearInterval, setInterval } from "node:timers";
 import type { QuestionEntry } from "./examPresets";
 import { examPresets } from "./examPresets";
-import { modelPresets } from "./modelPresets";
+import { modelPresets, legacyModelPresetIds } from "./modelPresets";
 import { taskStorage } from "./persistence";
 import type { TaskStatus } from "./taskStatus";
 
@@ -30,8 +30,10 @@ class Filter {
 export function enumerateAllTasks(
   options: {
     includeOldModels?: boolean;
+    includeLegacy?: boolean;
   } = {},
 ): Task[] {
+  const includeLegacy = options.includeLegacy ?? true;
   const questionFilter = new Filter(process.env["QUESTION_FILTER"]);
   const modelFilter = new Filter(process.env["MODEL_FILTER"]);
   const tasks: Task[] = [];
@@ -39,6 +41,7 @@ export function enumerateAllTasks(
     if (!modelFilter.matches(modelPresetId)) continue;
     const modelPreset = modelPresets[modelPresetId];
     if (!options.includeOldModels && modelPreset.old) continue;
+    if (!includeLegacy && legacyModelPresetIds.has(modelPresetId)) continue;
     for (const examPresetId of examPresets.availableExamPresetIds) {
       const examPreset = examPresets.get(examPresetId);
       for (const questionEntry of examPreset.questionEntries) {
@@ -60,7 +63,7 @@ export function enumerateAllTasks(
 export async function acquireTaskForWorkerWithLease(leaseSeconds = 15) {
   const now = Date.now();
   const leaseExpiresAt = new Date(now + leaseSeconds * 1000).toISOString();
-  const tasks = enumerateAllTasks();
+  const tasks = enumerateAllTasks({ includeLegacy: false });
   for (const task of tasks.sort(() => Math.random() - 0.5)) {
     const status = await taskStorage.getItem(task.id);
     const isAvailable =

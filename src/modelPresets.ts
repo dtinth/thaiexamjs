@@ -249,6 +249,7 @@ const modelPresetOverrides: Record<string, ModelPresetOverride> = {
 };
 
 export const modelPresets: Record<string, ModelPreset> = {};
+export const legacyModelPresetIds = new Set<string>();
 
 for (const base of modelPresetsBaseJson) {
   const override = modelPresetOverrides[base.id] ?? {};
@@ -265,6 +266,9 @@ for (const base of modelPresetsBaseJson) {
               ? { extraBody: base.params as Record<string, unknown> }
               : undefined,
           );
+  if (base.model === 'legacy') {
+    legacyModelPresetIds.add(base.id);
+  }
 
   modelPresets[base.id] = {
     createModel: override.createModel ?? baseCreateModel,
