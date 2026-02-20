@@ -20,7 +20,7 @@ function isTaskPending(status: TaskStatus | null): boolean {
 }
 
 async function allTasksFinished(): Promise<boolean> {
-  const tasks = enumerateAllTasks();
+  const tasks = enumerateAllTasks({ includeLegacy: false });
   for (const task of tasks) {
     const status = await taskStorage.getItem(task.id);
     if (isTaskPending(status)) return false;

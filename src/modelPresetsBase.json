@@ -843,5 +843,26 @@
     "icon": "",
     "model": "nvidia/nemotron-3-nano-30b-a3b",
     "old": false
+  },
+  {
+    "id": "gemini-3.1-pro-preview",
+    "inputPrice": 2,
+    "outputPrice": 12,
+    "icon": "ri:gemini-fill",
+    "model": "google/gemini-3.1-pro-preview",
+    "old": false
+  },
+  {
+    "id": "gemini-3.1-pro-preview[high]",
+    "inputPrice": 2,
+    "outputPrice": 12,
+    "icon": "ri:gemini-fill",
+    "model": "google/gemini-3.1-pro-preview",
+    "params": {
+      "reasoning": {
+        "effort": "high"
+      }
+    },
+    "old": false
   }
 ]
