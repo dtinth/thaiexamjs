@@ -936,5 +936,13 @@
     "icon": "",
     "model": "nvidia/nemotron-3-super-120b-a12b",
     "old": false
+  },
+  {
+    "id": "glm-5.1",
+    "inputPrice": 1.26,
+    "outputPrice": 3.96,
+    "icon": "",
+    "model": "z-ai/glm-5.1",
+    "old": false
   }
 ]
